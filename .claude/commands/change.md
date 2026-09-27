@@ -1,3 +1,6 @@
+---
+description: Create a Change Request (CR) for feature modifications.
+---
 # /change — Create Change Request
 
 Create a Change Request (CR) for feature modifications.
