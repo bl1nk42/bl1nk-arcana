@@ -1,3 +1,54 @@
+<<<<<<< HEAD
+{
+  "rust-analyzer.checkOnSave.command": "clippy",
+  "rust-analyzer.checkOnSave.allFeatures": true,
+  "rust-analyzer.checkOnSave.allTargets": true,
+  "rust-analyzer.cargo.buildScripts.enable": true,
+  "rust-analyzer.cargo.features": "all",
+  "rust-analyzer.files.excludeDirs": ["target", "rust/target"],
+  "rust-analyzer.procMacro.enable": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "editor.defaultFormatter": "rust-lang.rust-analyzer",
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+  },
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
+  "[gdscript]": {
+    "editor.defaultFormatter": "godot.gdscript-vscode"
+  },
+  "godot.projectPath": "${workspaceFolder}/godot",
+  "godot.editorPath": "godot",
+  "godot.debugPort": 6007,
+  "files.exclude": {
+    "**/target": true,
+    "**/rust/target": true,
+    "**/.git": true,
+    "**/.godot": true,
+    "**/godot/.godot": true
+  },
+  "search.exclude": {
+    "**/target": true,
+    "**/rust/target": true,
+    "**/.git": true,
+    "**/.godot": true
+  },
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.cwd": "${workspaceFolder}",
+  "tasks.autoDetect": "on",
+  "extensions.recommendations": [
+    "rust-lang.rust-analyzer",
+    "godot.gdscript-vscode",
+    "tamasfe.even-better-toml",
+    "vadimcn.vscode-lldb",
+    "swellaby.vscode-rust-test-adapter",
+    "serayuzgur.crates",
+    "bierner.markdown-mermaid"
+  ],
+  "[jsonc]": {
+    "editor.defaultFormatter": "vs
 {
   "rust-analyzer.checkOnSave.command": "clippy",
   "rust-analyzer.checkOnSave.allFeatures": true,
