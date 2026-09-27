@@ -1,0 +1,109 @@
+# Cargo configuration for Blink Arcana
+# Place in rust/.cargo/config.toml
+
+[build]
+# Target directory (optional, defaults to target/)
+# target-dir = "target"
+
+# Number of parallel jobs (1+ = specific, omit = auto)
+# jobs = 4
+
+# Build all targets with --all-targets by default
+# all-targets = false
+
+[target.x86_64-unknown-linux-gnu]
+linker = "clang"
+rustflags = [
+    "-C", "link-arg=-fuse-ld=lld",
+    "-C", "link-arg=-Wl,--as-needed",
+]
+
+[target.wasm32-unknown-unknown]
+rustflags = [
+    "-C", "link-arg=--import-memory",
+    "-C", "link-arg=--export-memory",
+    "-C", "link-arg=--initial-memory=16777216",
+    "-C", "link-arg=--max-memory=134217728",
+]
+
+[target.x86_64-pc-windows-msvc]
+linker = "lld-link"
+
+[profile.dev]
+opt-level = 0
+debug = true
+overflow-checks = true
+lto = false
+rpath = false
+panic = "unwind"
+split-debuginfo = "unpacked"
+codegen-units = 16
+
+[profile.release]
+opt-level = 3
+debug = false
+overflow-checks = false
+lto = "thin"
+rpath = false
+panic = "abort"
+codegen-units = 1
+strip = "symbols"
+
+[profile.release-lto]
+inherits = "release"
+lto = "fat"
+
+[profile.test]
+inherits = "dev"
+debug-assertions = true
+overflow-checks = true
+
+[profile.bench]
+inherits = "release"
+debug = true
+
+[workspace]
+# Resolver version (Cargo.toml has resolver = "2")
+# resolver = "2"
+
+# Exclude directories from workspace
+exclude = [
+    "target",
+    "crates/blink-gdext/tests/godot_test_project",
+]
+
+[alias]
+check = "check --all-targets --all-features"
+test = "test --all-targets --all-features"
+clippy = "clippy --all-targets --all-features -- -D warnings"
+fmt-all = "fmt --all"
+build-all = "build --all-targets --all-features"
+doc = "doc --all-features --no-deps"
+
+[registry]
+# Crates.io index (default)
+# index = "https://github.com/rust-lang/crates.io-index"
+
+[source.crates-io]
+# Replace with mirror if needed (e.g., for China)
+# replace-with = "ustc"
+# replace-with = "sjtu"
+
+# [source.ustc]
+# registry = "https://mirrors.ustc.edu.cn/crates.io-index"
+
+# [source.sjtu]
+# registry = "https://mirrors.sjtug.sjtu.edu.cn/git/crates.io-index"
+
+[net]
+# Git fetch with CLI (for private repos)
+git-fetch-with-cli = true
+
+# Offline mode (for CI without network)
+# offline = false
+
+[http]
+# Timeout for network operations
+timeout = 30
+# Low speed limit (bytes/sec)
+low-speed-limit = 1000

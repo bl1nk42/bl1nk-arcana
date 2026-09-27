@@ -1,0 +1,55 @@
+# Rustfmt Configuration for Blink Arcana (stable options only)
+# https://rust-lang.github.io/rustfmt/
+
+# Edition
+edition = "2024"
+
+# Line width
+max_width = 100
+
+# Indentation
+tab_spaces = 4
+hard_tabs = false
+
+# Newlines
+newline_style = "Unix"
+
+# Braces
+brace_style = "SameLineWhere"
+control_brace_style = "AlwaysSameLine"
+
+# Function definitions
+fn_params_layout = "Tall"
+
+# Structs
+struct_variant_width = 100
+
+# Enums
+enum_discrim_align = true
+
+# Match
+match_block_trailing_comma = true
+match_arm_leading_pipes = "Never"
+
+# Use
+use_field_init_shorthand = true
+use_small_heuristics = "Max"
+use_try_shorthand = true
+
+# Imports
+imports_granularity = "Crate"
+group_imports = "StdExternalCrate"
+
+# Attributes
+attr_fn_like = "Preserve"
+
+# Comments
+wrap_comments = true
+
+# Reorder
+reorder_imports = true
+reorder_modules = false
+
+# Other
+merge_derives = true
+empty_item_single_line = true

@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="//uid:unit_scene"]
+
+[ext_resource type="Script" path="res://scripts/units/Unit.gd" id="1"]
+
+[node name="Unit" type="CharacterBody2D"]
+script = ExtResource("1")
+
+; sprite_frames is left empty on purpose: the block that used to live here was
+; written in the Godot 3 format, which Godot 4 cannot parse. Unit.gd's
+; _ensure_sprite_frames() builds the 8 animations from placeholder.svg instead.
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+layout_mode = 3
+anchors_preset = 9
+offset_left = -32.0
+offset_top = -50.0
+offset_right = 32.0
+offset_bottom = -40.0
+min_value = 0.0
+max_value = 100.0
+value = 100.0
+
+[node name="NameLabel" type="Label" parent="."]
+text = "Unit"
+layout_mode = 3
+anchors_preset = 9
+offset_left = -50.0
+offset_top = -70.0
+offset_right = 50.0
+offset_bottom = -50.0
+horizontal_alignment = 1
+
+[node name="SelectionIndicator" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-16, 16, 16, 16, 0, -16)
+color = Color(1, 1, 0, 0.8)
+visible = false
+
+[node name="StatusEffectIcons" type="HBoxContainer" parent="."]
+layout_mode = 3
+anchors_preset = 9
+offset_left = -60.0
+offset_top = -90.0
+offset_right = 60.0
+offset_bottom = -70.0

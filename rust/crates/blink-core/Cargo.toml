@@ -1,0 +1,26 @@
+[package]
+name = "blink-core"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "Core logic for Blink Arcana: combat, AI, pathfinding, stats"
+
+[dependencies]
+thiserror = { workspace = true }
+prost = { workspace = true }
+prost-types = { workspace = true }
+tracing = { workspace = true }
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+rand = { workspace = true }
+petgraph = { workspace = true }
+tempfile = "3.10"
+
+[lib]
+name = "blink_core"
+path = "src/lib.rs"
+
+[[test]]
+name = "combat_tests"
+path = "tests/combat_tests.rs"

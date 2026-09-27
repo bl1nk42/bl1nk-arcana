@@ -1,0 +1,22 @@
+[package]
+name = "blink-gdext"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "GDExtension binding for Blink Arcana"
+
+[dependencies]
+godot = { version = "0.5", features = ["api-4-6"] }
+blink-core = { path = "../blink-core" }
+blink-proto = { path = "../blink-proto" }
+thiserror = { workspace = true }
+prost = { workspace = true }
+prost-types = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+
+[lib]
+name = "blink_gdext"
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"

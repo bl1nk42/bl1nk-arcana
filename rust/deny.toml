@@ -1,0 +1,70 @@
+# Cargo Deny Configuration for Blink Arcana
+# https://github.com/EmbarkStudios/cargo-deny
+
+[advisories]
+# Vulnerability database to use
+db = "rustsec"
+# Path to cache database
+db-path = "deny/advisory-db"
+# Ignore specific advisories (use sparingly)
+# ignore = ["RUSTSEC-2023-0001"]
+
+[licenses]
+# Allow these licenses (SPDX identifiers)
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Zlib",
+    "Unicode-DFS-2016",
+    "CC0-1.0",
+    "MPL-2.0",
+]
+# Deny these licenses
+deny = [
+    "GPL-2.0-only",
+    "GPL-3.0-only",
+    "AGPL-3.0-only",
+    "LGPL-2.1-only",
+    "LGPL-3.0-only",
+]
+# Allow specific crates with otherwise denied licenses
+# allow-crates = ["some-crate"]
+
+[bans]
+# Deny specific crates
+deny = [
+    # Example: "unsafe-crate"
+]
+# Allow specific crates that would otherwise be banned
+# allow = ["some-crate"]
+# Deny crates with these features
+# deny-features = ["some-feature"]
+# Multiple versions of same crate (default: warn)
+multiple-versions = "warn"
+# Highlight crates with multiple versions
+# highlight = ["*"]
+# Default: "all"
+# wildcards = "allow"
+
+[sources]
+# Allow crates from these registries
+allow-unknown-registry = false
+# Allow git sources
+allow-git = true
+# Allow path sources (local crates)
+allow-path = true
+
+[metadata]
+# Check for duplicate dependencies
+check-duplicates = true
+# Check for unmaintained crates
+check-unmaintained = true
+# Minimum time since last publish to consider unmaintained (days)
+unmaintained-threshold = 730
+
+[workspace]
+# Workspace members to check (default: all)
+# members = ["crates/*"]

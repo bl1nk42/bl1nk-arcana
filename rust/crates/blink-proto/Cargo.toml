@@ -1,0 +1,18 @@
+[package]
+name = "blink-proto"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "Protobuf messages for Blink Arcana"
+
+[build-dependencies]
+prost-build = "0.13"
+
+[dependencies]
+prost = { workspace = true }
+prost-types = { workspace = true }
+serde = { workspace = true }
+
+[lib]
+name = "blink_proto"
+path = "src/lib.rs"

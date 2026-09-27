@@ -1,0 +1,29 @@
+# Godot-specific ignores
+# This file is for godot/ subdirectory
+
+# Godot imports
+.import/
+
+# Export presets (contains sensitive paths)
+export_presets.cfg
+
+# Unique IDs (generated per project)
+*.uid
+
+# Temporary files
+*.tmp
+*.log
+
+# Godot editor cache
+.editorconfig
+.godot/
+
+# Thumbnails
+*.thumbnails/
+
+# Auto-generated translation files
+*.translation
+
+# Build outputs
+build/
+dist/
