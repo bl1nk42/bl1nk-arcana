@@ -1,0 +1,98 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Rust: Debug blink-core tests",
+      "type": "lldb",
+      "request": "launch",
+      "cargo": {
+        "args": ["test", "--package", "blink-core", "--lib", "--", "--nocapture"],
+        "filter": {
+          "name": "blink-core",
+          "kind": "lib"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}/rust"
+    },
+    {
+      "name": "Rust: Debug blink-gdext",
+      "type": "lldb",
+      "request": "launch",
+      "cargo": {
+        "args": ["build", "--package", "blink-gdext", "--profile", "dev"],
+        "filter": {
+          "name": "blink-gdext",
+          "kind": "lib"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}/rust"
+    },
+    {
+      "name": "Rust: Debug blink-cli",
+      "type": "lldb",
+      "request": "launch",
+      "cargo": {
+        "args": ["build", "--package", "blink-cli", "--profile", "dev"],
+        "filter": {
+          "name": "blink-cli",
+          "kind": "bin"
+        }
+      },
+      "args": ["status"],
+      "cwd": "${workspaceFolder}/rust"
+    },
+    {
+      "name": "Rust: Debug blink-cli build",
+      "type": "lldb",
+      "request": "launch",
+      "cargo": {
+        "args": ["build", "--package", "blink-cli", "--profile", "dev"],
+        "filter": {
+          "name": "blink-cli",
+          "kind": "bin"
+        }
+      },
+      "args": ["build", "--profile", "dev"],
+      "cwd": "${workspaceFolder}/rust"
+    },
+    {
+      "name": "Rust: Debug All Tests",
+      "type": "lldb",
+      "request": "launch",
+      "cargo": {
+        "args": ["test", "--workspace"],
+        "filter": {
+          "name": "blink-core",
+          "kind": "lib"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}/rust"
+    },
+    {
+      "name": "Godot: Attach to Running Editor",
+      "type": "godot",
+      "request": "attach",
+      "address": "127.0.0.1",
+      "port": 6007,
+      "project": "${workspaceFolder}/godot",
+      "launchScene": ""
+    },
+    {
+      "name": "Godot: Launch Project with Debugger",
+      "type": "godot",
+      "request": "launch",
+      "project": "${workspaceFolder}/godot",
+      "launchScene": ""
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full Debug: Rust + Godot",
+      "configurations": ["Rust: Debug blink-gdext", "Godot: Launch Project with Debugger"],
+      "stopAll": true
+    }
+  ]
+}

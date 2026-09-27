@@ -1,0 +1,28 @@
+name: bl1nk-game-dev
+version: 1.0.0
+description: "Blink Arcana Game Development Agent — Tactical RPG + Roguelike project with Godot 4 + Rust GDExtension"
+hermes_requires: ">=0.12.0"
+author: "Blink Arcana Team"
+license: "MIT"
+
+env_requires:
+  - name: GODOT_PATH
+    description: "Path to Godot 4.7 binary"
+    required: false
+    default: "godot"
+  - name: RUST_TOOLCHAIN
+    description: "Rust toolchain version (pinned in rust-toolchain.toml)"
+    required: false
+    default: "1.98.1"
+  - name: DOCKER_HOST
+    description: "Docker daemon for container builds"
+    required: false
+    default: "unix:///var/run/docker.sock"
+
+distribution_owned:
+  - SOUL.md
+  - config.yaml
+  - mcp.json
+  - skills/
+  - cron/
+  - distribution.yaml

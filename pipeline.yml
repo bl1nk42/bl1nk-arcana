@@ -1,0 +1,242 @@
+steps:
+  # ============================================================
+  # PRE-CHECKS (fast, run in parallel)
+  # ============================================================
+  - label: ":rust: Format Check"
+    key: fmt
+    agents:
+      queue: rust
+    commands:
+      - rustup component add rustfmt 2>/dev/null || true
+      - cargo fmt --all -- --check
+    timeout_in_minutes: 10
+    artifact_paths:
+      - "fmt-errors.txt"
+
+  - label: ":mag: Clippy Lint"
+    key: clippy
+    agents:
+      queue: rust
+    commands:
+      - rustup component add clippy 2>/dev/null || true
+      - cargo clippy --all-targets --all-features -- -D warnings
+    timeout_in_minutes: 15
+    artifact_paths:
+      - "clippy-errors.txt"
+
+  - label: ":godot: GDScript Format"
+    key: gdformat
+    agents:
+      queue: godot
+    commands:
+      - pip install gdformat==4.2.0
+      - gdformat --check godot/scripts/
+    timeout_in_minutes: 5
+
+  - label: ":toml: TOML Format"
+    key: taplo
+    agents:
+      queue: rust
+    commands:
+      - pip install taplo
+      - taplo fmt --check **/*.toml
+    timeout_in_minutes: 5
+
+  - label: ":spell: Spell Check"
+    key: typos
+    agents:
+      queue: rust
+    commands:
+      - cargo install typos-cli
+      - typos .
+    timeout_in_minutes: 5
+
+  # ============================================================
+  # TESTS (run after pre-checks pass)
+  # ============================================================
+  - label: ":test_tube: Unit Tests (Rust)"
+    key: test-rust
+    depends_on:
+      - fmt
+      - clippy
+    agents:
+      queue: rust
+    commands:
+      - cargo test --workspace --all-features
+    timeout_in_minutes: 30
+    artifact_paths:
+      - "test-results/**/*"
+      - "target/debug/deps/*.d"
+
+  - label: ":godot: Godot Headless Tests"
+    key: test-godot
+    depends_on:
+      - gdformat
+    agents:
+      queue: godot
+    commands:
+      - godot --headless --script-check godot/project.godot
+      - godot --headless --export-release "Linux/X11" /tmp/test-build/blink-arcana 2>&1 | head -50
+    timeout_in_minutes: 20
+
+  # ============================================================
+  # SECURITY
+  # ============================================================
+  - label: ":lock: Security Audit"
+    key: audit
+    depends_on:
+      - clippy
+    agents:
+      queue: rust
+    commands:
+      - cargo install cargo-audit
+      - cargo audit
+      - cargo install cargo-deny
+      - cargo deny check
+    timeout_in_minutes: 20
+
+  # ============================================================
+  # BUILD (run after tests pass)
+  # ============================================================
+  - label: ":package: Build Rust (Release)"
+    key: build-rust
+    depends_on:
+      - test-rust
+      - audit
+    agents:
+      queue: rust
+    commands:
+      - cargo build --release --workspace
+      - ls -la rust/target/release/libblink_gdext.*
+    timeout_in_minutes: 30
+    artifact_paths:
+      - "rust/target/release/libblink_gdext.so"
+      - "rust/target/release/libblink_gdext.dylib"
+      - "rust/target/release/blink_gdext.dll"
+      - "rust/target/release/blink_gdext.wasm"
+
+  - label: ":godot: Build Godot Export (Linux)"
+    key: build-godot-linux
+    depends_on:
+      - build-rust
+      - test-godot
+    agents:
+      queue: godot
+    commands:
+      - mkdir -p godot/addons/blink_core/bin/
+      - cp rust/target/release/libblink_gdext.so godot/addons/blink_core/bin/
+      - godot --headless --export-release "Linux/X11" /tmp/build/linux/blink-arcana
+      - ls -la /tmp/build/linux/
+    timeout_in_minutes: 20
+    artifact_paths:
+      - "/tmp/build/linux/blink-arcana*"
+
+  - label: ":godot: Build Godot Export (Windows)"
+    key: build-godot-windows
+    depends_on:
+      - build-rust
+    agents:
+      queue: godot-windows
+    commands:
+      - mkdir -p godot/addons/blink_core/bin/
+      - cp rust/target/release/blink_gdext.dll godot/addons/blink_core/bin/
+      - godot --headless --export-release "Windows Desktop" /tmp/build/windows/blink-arcana.exe
+    timeout_in_minutes: 20
+    artifact_paths:
+      - "/tmp/build/windows/blink-arcana.exe*"
+
+  - label: ":godot: Build Godot Export (macOS)"
+    key: build-godot-macos
+    depends_on:
+      - build-rust
+    agents:
+      queue: godot-macos
+    commands:
+      - mkdir -p godot/addons/blink_core/bin/
+      - cp rust/target/release/libblink_gdext.dylib godot/addons/blink_core/bin/
+      - godot --headless --export-release "macOS" /tmp/build/macos/blink-arcana.dmg
+    timeout_in_minutes: 20
+    artifact_paths:
+      - "/tmp/build/macos/blink-arcana.dmg*"
+
+  - label: ":godot: Build Godot Export (Web)"
+    key: build-godot-web
+    depends_on:
+      - build-rust
+    agents:
+      queue: rust
+    commands:
+      - rustup target add wasm32-unknown-unknown
+      - cargo build --release --target wasm32-unknown-unknown -p blink-gdext
+      - mkdir -p godot/addons/blink_core/bin/
+      - cp rust/target/wasm32-unknown-unknown/release/blink_gdext.wasm godot/addons/blink_core/bin/
+      - godot --headless --export-release "Web" /tmp/build/web/
+    timeout_in_minutes: 30
+    artifact_paths:
+      - "/tmp/build/web/**/*"
+
+  - label: ":godot: Build Godot Export (Android)"
+    key: build-godot-android
+    depends_on:
+      - build-rust
+    agents:
+      queue: godot-android
+    commands:
+      - rustup target add aarch64-linux-android armv7-linux-androideabi
+      - cargo build --release --target aarch64-linux-android -p blink-gdext
+      - cargo build --release --target armv7-linux-androideabi -p blink-gdext
+      - mkdir -p godot/addons/blink_core/bin/
+      - cp rust/target/aarch64-linux-android/release/libblink_gdext.so godot/addons/blink_core/bin/libblink_gdext_arm64.so
+      - cp rust/target/armv7-linux-androideabi/release/libblink_gdext.so godot/addons/blink_core/bin/libblink_gdext_arm32.so
+      - godot --headless --export-release "Android" /tmp/build/android/blink-arcana.apk
+    timeout_in_minutes: 40
+    artifact_paths:
+      - "/tmp/build/android/blink-arcana.apk*"
+
+  # ============================================================
+  # DOCKER
+  # ============================================================
+  - label: ":docker: Build Docker Image"
+    key: docker-build
+    depends_on:
+      - build-rust
+    agents:
+      queue: docker
+    commands:
+      - docker build -t blink-arcana:$BUILDKITE_BUILD_NUMBER -f docker/Dockerfile .
+      - docker run --rm blink-arcana:$BUILDKITE_BUILD_NUMBER godot --version
+    timeout_in_minutes: 20
+
+  # ============================================================
+  # DEPLOY (manual approval for main branch)
+  # ============================================================
+  - label: ":rocket: Deploy to Staging"
+    key: deploy-staging
+    depends_on:
+      - build-godot-linux
+      - build-godot-windows
+      - build-godot-macos
+      - build-godot-web
+      - build-godot-android
+      - docker-build
+    agents:
+      queue: deploy
+    commands:
+      - echo "Deploy to staging environment"
+      - ./scripts/deploy.sh staging
+    timeout_in_minutes: 15
+    blockers: "Deploy to staging?"
+    if: build.branch == "main"
+
+  - label: ":rocket: Deploy to Production"
+    key: deploy-prod
+    depends_on:
+      - deploy-staging
+    agents:
+      queue: deploy
+    commands:
+      - echo "Deploy to production environment"
+      - ./scripts/deploy.sh production
+    timeout_in_minutes: 15
+    blockers: "Deploy to production?"
+    if: build.branch == "main" && build.tag != null

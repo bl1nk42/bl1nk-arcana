@@ -1,0 +1,137 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Rust: Build Release",
+      "type": "shell",
+      "command": "cargo",
+      "args": ["build", "--profile", "release", "--workspace"],
+      "options": {
+        "cwd": "${workspaceFolder}/rust"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$rustc",
+      "detail": "Build release binary for production"
+    },
+    {
+      "label": "Rust: Build Debug",
+      "type": "shell",
+      "command": "cargo",
+      "args": ["build", "--profile", "dev", "--workspace"],
+      "options": {
+        "cwd": "${workspaceFolder}/rust"
+      },
+      "group": "build",
+      "problemMatcher": "$rustc",
+      "detail": "Build debug binary with debug symbols"
+    },
+    {
+      "label": "Rust: Build Debug + Copy GDExtension",
+      "type": "shell",
+      "command": "bash",
+      "args": ["${workspaceFolder}/scripts/build.sh", "debug"],
+      "group": "build",
+      "problemMatcher": "$rustc",
+      "detail": "Build debug and copy .so to Godot addons"
+    },
+    {
+      "label": "Rust: Check",
+      "type": "shell",
+      "command": "cargo",
+      "args": ["check", "--all-targets", "--all-features", "--workspace"],
+      "options": {
+        "cwd": "${workspaceFolder}/rust"
+      },
+      "group": "test",
+      "problemMatcher": "$rustc",
+      "detail": "Type-check without building"
+    },
+    {
+      "label": "Rust: Clippy",
+      "type": "shell",
+      "command": "cargo",
+      "args": ["clippy", "--all-targets", "--all-features", "--workspace", "--", "-D", "warnings"],
+      "options": {
+        "cwd": "${workspaceFolder}/rust"
+      },
+      "group": "test",
+      "problemMatcher": "$rustc",
+      "detail": "Run clippy lints"
+    },
+    {
+      "label": "Rust: Test",
+      "type": "shell",
+      "command": "cargo",
+      "args": ["test", "--workspace"],
+      "options": {
+        "cwd": "${workspaceFolder}/rust"
+      },
+      "group": "test",
+      "problemMatcher": "$rustc",
+      "detail": "Run all tests"
+    },
+    {
+      "label": "Rust: Format",
+      "type": "shell",
+      "command": "cargo",
+      "args": ["fmt", "--all"],
+      "options": {
+        "cwd": "${workspaceFolder}/rust"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "detail": "Format all Rust code"
+    },
+    {
+      "label": "Godot: Run Editor",
+      "type": "shell",
+      "command": "godot",
+      "args": ["--editor", "--path", "${workspaceFolder}/godot"],
+      "group": "none",
+      "problemMatcher": [],
+      "detail": "Launch Godot editor"
+    },
+    {
+      "label": "Godot: Run Project",
+      "type": "shell",
+      "command": "godot",
+      "args": ["--path", "${workspaceFolder}/godot"],
+      "group": "none",
+      "problemMatcher": [],
+      "detail": "Run Godot project"
+    },
+    {
+      "label": "Docker: Build Dev Image",
+      "type": "shell",
+      "command": "docker",
+      "args": ["build", "-t", "blink-arcana-dev", "-f", "${workspaceFolder}/docker/Dockerfile", "${workspaceFolder}"],
+      "group": "none",
+      "problemMatcher": [],
+      "detail": "Build Docker development image"
+    },
+    {
+      "label": "Docker: Run Dev Container",
+      "type": "shell",
+      "command": "docker",
+      "args": ["run", "--rm", "-it", "-v", "${workspaceFolder}:/workspace", "blink-arcana-dev"],
+      "group": "none",
+      "problemMatcher": [],
+      "detail": "Run Docker development container"
+    },
+    {
+      "label": "Just: All Commands",
+      "type": "shell",
+      "command": "just",
+      "args": ["--list"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "detail": "List all just recipes"
+    }
+  ]
+}

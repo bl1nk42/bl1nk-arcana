@@ -1,0 +1,106 @@
+# Hermes Config for Blink Game Dev Profile
+model:
+  provider: "openrouter"
+  name: "nvidia/nemotron-3-ultra-550b-a55b:free"
+  temperature: 0.3
+  max_tokens: 8192
+  reasoning:
+    enabled: true
+    budget: 2048
+
+tools:
+  defaults:
+    - terminal
+    - read_file
+    - write_file
+    - patch
+    - search_files
+    - web_search
+    - web_extract
+    - todo_list
+    - session_search
+    - memory
+    - skill_manage
+    - kanban_show
+    - kanban_create
+    - kanban_complete
+    - kanban_comment
+  allow_all: false
+
+session:
+  auto_compact: true
+  compact_threshold: 80000
+  summary_model: "nvidia/nemotron-3-ultra-550b-a55b:free"
+
+project:
+  root: "/data/data/com.termux/files/home/plugins/bl1nk-arcana"
+  context_files:
+    - "PDR.md"
+    - "CLAUDE.md"
+    - "docs/architecture.md"
+    - "docs/GLOSSARY.md"
+    - "justfile"
+    - "proto/blink_v1.proto"
+    - "rust/Cargo.toml"
+    - "rust/crates/blink-core/Cargo.toml"
+    - "rust/crates/blink-gdext/Cargo.toml"
+    - "godot/project.godot"
+    - "docs/SPECS/combat_system.md"
+    - "docs/SPECS/ai_system.md"
+    - "docs/SPECS/pathfinding_system.md"
+    - "docs/SPECS/data_system.md"
+    - "docs/SPECS/gdextension_binding.md"
+
+hooks:
+  session_start:
+    - "cd /data/data/com.termux/files/home/plugins/bl1nk-arcana && git status --short"
+    - "cd /data/data/com.termux/files/home/plugins/bl1nk-arcana && just --list"
+  session_end:
+    - "cd /data/data/com.termux/files/home/plugins/bl1nk-arcana && git diff --stat"
+  pre_tool:
+    - name: "write_file"
+      check: "file_path ends with '.rs' or '.gd' or '.toml' or '.proto'"
+    - name: "patch"
+      check: "file_path ends with '.rs' or '.gd' or '.toml' or '.proto'"
+  post_tool:
+    - name: "terminal"
+      if: "command contains 'cargo build' or 'cargo test' or 'just build'"
+      then: "echo 'Build/Test completed'"
+
+skills:
+  auto_load:
+    - "spec-driven-development"
+    - "tdd"
+    - "adr-driven-development"
+    - "codebase-design"
+    - "domain-modeling"
+    - "implement"
+    - "writing-for-agents"
+    - "rust"
+    - "godot"
+    - "docker"
+    - "github"
+    - "linear"
+    - "project-manager"
+  on_demand:
+    - "diagnosing-bugs"
+    - "improve-codebase-architecture"
+    - "prototype"
+    - "spike"
+    - "archify"
+    - "superdesign"
+    - "ui-ux-pro-max"
+
+git:
+  auto_stage: false
+  conventional_commits: true
+  branch_prefix: "feature/"
+  protected_branches:
+    - "main"
+    - "develop"
+
+notifications:
+  on_error: true
+  on_completion: true
+  channels:
+    - "local"

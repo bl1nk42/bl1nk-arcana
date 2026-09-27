@@ -1,0 +1,38 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "env": {}
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "linear": {
+      "command": "npx",
+      "args": ["-y", "@linear/mcp-server"],
+      "env": {
+        "LINEAR_API_KEY": "${LINEAR_API_KEY}"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/data/data/com.termux/files/home/plugins/bl1nk-arcana"],
+      "env": {}
+    },
+    "godot-docs": {
+      "command": "npx",
+      "args": ["-y", "mcp-godot-docs"],
+      "env": {}
+    },
+    "rust-docs": {
+      "command": "npx",
+      "args": ["-y", "mcp-rust-docs"],
+      "env": {}
+    }
+  }
+}

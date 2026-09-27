@@ -1,0 +1,9 @@
+{
+  "name": "weekly-review",
+  "schedule": "0 17 * * 5",
+  "timezone": "Asia/Bangkok",
+  "prompt": "Weekly review for Blink Arcana. Analyze: 1) Sprint velocity (completed vs planned) 2) Code quality metrics (clippy warnings, test coverage) 3) Blocker patterns 4) Technical debt items 5) Next sprint priorities. Create summary and update ClickUp/Linear.",
+  "skills": ["project-manager", "weekly-review-planning", "github", "linear"],
+  "deliver": "local",
+  "enabled": true
+}

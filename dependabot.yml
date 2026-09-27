@@ -1,0 +1,96 @@
+# Dependabot Configuration for Blink Arcana
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Rust dependencies (Cargo.toml)
+  - package-ecosystem: "cargo"
+    directory: "/rust"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Bangkok"
+    labels:
+      - "dependencies"
+      - "rust"
+      - "cargo"
+    commit-message:
+      prefix: "chore(cargo)"
+      include: "scope"
+    groups:
+      rust-dev-deps:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+    open-pull-requests-limit: 10
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    ignore:
+      - dependency-name: "gdext"
+        # GDExtension versions tied to Godot version
+        versions: ["0.3.*"]
+    # Auto-merge for patch/minor with passing CI
+    # auto-merge: true
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Bangkok"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "chore(actions)"
+      include: "scope"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+    open-pull-requests-limit: 5
+
+  # Docker
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Bangkok"
+    labels:
+      - "dependencies"
+      - "docker"
+    commit-message:
+      prefix: "chore(docker)"
+      include: "scope"
+    open-pull-requests-limit: 3
+
+  # Cargo.toml at root (if exists)
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Bangkok"
+    labels:
+      - "dependencies"
+      - "rust"
+    commit-message:
+      prefix: "chore(cargo)"
+      include: "scope"
+    open-pull-requests-limit: 5
+
+# Security updates (automatic)
+# dependabot will automatically create PRs for security vulnerabilities
+# No additional config needed - enabled by default for supported ecosystems

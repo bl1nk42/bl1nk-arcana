@@ -1,0 +1,9 @@
+{
+  "name": "daily-standup-reminder",
+  "schedule": "0 9 * * 1-5",
+  "timezone": "Asia/Bangkok",
+  "prompt": "Run daily standup for Blink Arcana project. Check: 1) ClickUp sprint board for today's tasks 2) Linear issues assigned to me 3) GitHub PRs needing review 4) Blockers from yesterday 5) Plan for today. Output as structured standup note.",
+  "skills": ["project-manager", "linear", "github"],
+  "deliver": "local",
+  "enabled": true
+}
