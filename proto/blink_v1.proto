@@ -1,0 +1,331 @@
+syntax = "proto3";
+
+package blink.v1;
+
+// ============================================================
+// Core Entities (from PDR, GDD, CLASS_TREE, SKILL_SYSTEM, WEAPON_SYSTEM)
+// ============================================================
+
+enum Element {
+  ELEMENT_UNSPECIFIED = 0;
+  ELEMENT_FIRE = 1;
+  ELEMENT_WATER = 2;
+  ELEMENT_WIND = 3;
+  ELEMENT_EARTH = 4;
+  ELEMENT_LIGHT = 5;
+  ELEMENT_DARK = 6;
+  ELEMENT_NEUTRAL = 7;
+}
+
+enum SkillType {
+  SKILL_TYPE_UNSPECIFIED = 0;
+  SKILL_TYPE_PASSIVE = 1;
+  SKILL_TYPE_ACTIVE = 2;
+  SKILL_TYPE_REACTIVE = 3;
+  SKILL_TYPE_COMMAND = 4;
+}
+
+enum WeaponType {
+  WEAPON_TYPE_UNSPECIFIED = 0;
+  WEAPON_TYPE_SWORD = 1;
+  WEAPON_TYPE_LANCE = 2;
+  WEAPON_TYPE_BOW = 3;
+  WEAPON_TYPE_TOME = 4;
+  WEAPON_TYPE_STAFF = 5;
+}
+
+enum WeaponRank {
+  WEAPON_RANK_UNSPECIFIED = 0;
+  WEAPON_RANK_E = 1;
+  WEAPON_RANK_D = 2;
+  WEAPON_RANK_C = 3;
+  WEAPON_RANK_B = 4;
+  WEAPON_RANK_A = 5;
+  WEAPON_RANK_S = 6;
+}
+
+enum ClassLine {
+  CLASS_LINE_UNSPECIFIED = 0;
+  CLASS_LINE_SWORD = 1;
+  CLASS_LINE_LANCE = 2;
+  CLASS_LINE_RIDER = 3;
+  CLASS_LINE_ARCHER = 4;
+  CLASS_LINE_MAGE = 5;
+}
+
+enum ClassTier {
+  CLASS_TIER_UNSPECIFIED = 0;
+  CLASS_TIER_T1 = 1;
+  CLASS_TIER_T2 = 2;
+  CLASS_TIER_T3 = 3;
+}
+
+enum TerrainType {
+  TERRAIN_UNSPECIFIED = 0;
+  TERRAIN_PLAIN = 1;
+  TERRAIN_ROAD = 2;
+  TERRAIN_FOREST = 3;
+  TERRAIN_MOUNTAIN = 4;
+  TERRAIN_RIVER = 5;
+  TERRAIN_WALL = 6;
+  TERRAIN_VOLCANIC = 7;
+  TERRAIN_ICE = 8;
+  TERRAIN_THRONE = 9;
+  TERRAIN_VILLAGE = 10;
+  TERRAIN_DEATH = 11;
+}
+
+enum AIPersonality {
+  AI_PERSONALITY_UNSPECIFIED = 0;
+  AI_PERSONALITY_AGGRESSIVE = 1;
+  AI_PERSONALITY_DEFENSIVE = 2;
+  AI_PERSONALITY_TACTICAL = 3;
+  AI_PERSONALITY_UNPREDICTABLE = 4;
+}
+
+// ============================================================
+// Unit & Stats
+// ============================================================
+
+message UnitStats {
+  int32 hp = 1;
+  int32 atk = 2;
+  int32 def = 3;
+  int32 int = 4;
+  int32 spd = 5;
+  int32 mov = 6;
+  int32 rng = 7;
+  int32 res = 8;
+}
+
+message Unit {
+  string id = 1;
+  string name = 2;
+  ClassLine class_line = 3;
+  string class = 4;
+  ClassTier class_tier = 5;
+  Element element = 6;
+  int32 level = 7;
+  UnitStats base_stats = 8;
+  UnitStats current_stats = 9;
+  int32 current_hp = 10;
+  repeated string skill_ids = 11;  // Skill Bank
+  repeated string equipped_skills = 12;  // Active slots (max 6)
+  string weapon_id = 13;
+  string armor_id = 14;
+  string accessory_id = 15;
+  int32 slots_used = 16;
+  int32 max_slots = 17;
+}
+
+// ============================================================
+// Skill
+// ============================================================
+
+message SkillEffect {
+  string effect_type = 1;  // e.g., "damage", "heal", "buff", "debuff", "guard", "aura"
+  map<string, string> params = 2;  // flexible key-value params
+}
+
+message Skill {
+  string id = 1;
+  string name = 2;
+  SkillType type = 3;
+  int32 slot_cost = 4;  // 1 or 2
+  int32 unlock_cp = 5;  // 2 (1-slot) or 4 (2-slot)
+  int32 cooldown = 6;   // turns (Active only)
+  int32 range = 7;      // Command/Aura only
+  ClassLine class_line = 8;
+  ClassTier unlock_tier = 9;
+  SkillEffect effect = 10;
+  string description = 11;
+}
+
+// ============================================================
+// Weapon / Item
+// ============================================================
+
+message WeaponAbility {
+  string id = 1;
+  string name = 2;
+  SkillType type = 3;
+  SkillEffect effect = 4;
+  string description = 5;
+}
+
+message Weapon {
+  string id = 1;
+  string name = 2;
+  WeaponType type = 3;
+  WeaponRank rank = 4;
+  int32 atk_bonus = 5;
+  string secondary_stat = 6;  // "hp", "def", "int", "spd", or ""
+  int32 secondary_value = 7;
+  int32 durability = 8;
+  int32 max_durability = 9;
+  WeaponAbility ability = 10;
+  Element element = 11;  // Tome only
+}
+
+message Armor {
+  string id = 1;
+  string name = 2;
+  string type = 3;  // "light", "cloth", "heavy"
+  int32 def_bonus = 4;
+  int32 mov_penalty = 5;
+  int32 res_bonus = 6;
+}
+
+message Accessory {
+  string id = 1;
+  string name = 2;
+  int32 rarity = 3;  // 1-5 stars
+  map<string, int32> stat_bonuses = 4;
+  string passive_effect = 5;
+  string description = 6;
+}
+
+// ============================================================
+// Tile / Map / Terrain
+// ============================================================
+
+message Tile {
+  int32 x = 1;
+  int32 y = 2;
+  TerrainType terrain = 3;
+  int32 height = 4;
+  bool walkable = 5;
+  bool flyable = 6;
+}
+
+message Map {
+  string id = 1;
+  string name = 2;
+  int32 width = 3;
+  int32 height = 4;
+  repeated Tile tiles = 5;
+  repeated Tile spawn_points = 6;  // Player/Enemy spawn
+  repeated Tile objective_points = 7;  // Throne, Village, etc.
+}
+
+// ============================================================
+// Battle State
+// ============================================================
+
+message BattleUnit {
+  Unit unit = 1;
+  int32 x = 2;
+  int32 y = 3;
+  bool has_acted = 4;
+  bool has_moved = 5;
+  map<string, int32> status_effects = 6;  // effect_id -> remaining_turns
+  int32 cooldowns = 7;  // skill_id -> remaining_cooldown
+}
+
+message BattleState {
+  string battle_id = 1;
+  Map map = 2;
+  repeated BattleUnit player_units = 3;
+  repeated BattleUnit enemy_units = 4;
+  int32 current_turn = 5;
+  bool is_player_turn = 6;
+  AIPersonality ai_personality = 7;
+  repeated AIIntention ai_intentions = 8;
+  int32 rewind_charges = 9;
+}
+
+message AIIntention {
+  string unit_id = 1;
+  string action_type = 2;  // "move", "attack", "skill", "wait"
+  int32 target_x = 3;
+  int32 target_y = 4;
+  string skill_id = 5;
+  string description = 6;
+}
+
+// ============================================================
+// Combat
+// ============================================================
+
+message CombatInput {
+  BattleUnit attacker = 1;
+  BattleUnit defender = 2;
+  string weapon_id = 3;
+  bool is_counter = 4;
+  TerrainType defender_terrain = 5;
+  Element attack_element = 6;
+}
+
+message CombatResult {
+  int32 damage = 1;
+  int32 heal = 2;
+  bool is_critical = 3;
+  bool is_miss = 4;
+  bool is_blocked = 5;  // Guard
+  int32 defender_remaining_hp = 6;
+  repeated string combat_log = 7;
+}
+
+// ============================================================
+// AI Decision
+// ============================================================
+
+message AIDecision {
+  string unit_id = 1;
+  string action = 2;  // "move_attack", "skill", "wait"
+  int32 move_x = 3;
+  int32 move_y = 4;
+  int32 target_x = 5;
+  int32 target_y = 6;
+  string skill_id = 7;
+  float confidence = 8;
+  string reasoning = 9;
+}
+
+// ============================================================
+// Battle Commands / Events
+// ============================================================
+
+message BattleCommand {
+  string command_id = 1;
+  string unit_id = 2;
+  string action = 3;  // "move", "attack", "skill", "end_turn", "rewind"
+  int32 x = 4;
+  int32 y = 5;
+  string skill_id = 6;
+  string target_unit_id = 7;
+}
+
+message BattleEvent {
+  string event_id = 1;
+  int32 turn = 2;
+  string event_type = 3;  // "unit_moved", "unit_attacked", "unit_died", "skill_used", "turn_start", "turn_end"
+  string unit_id = 4;
+  map<string, string> data = 5;
+  int32 timestamp = 6;
+}
+
+// ============================================================
+// Player Data / Save
+// ============================================================
+
+message PlayerData {
+  string player_id = 1;
+  string run_id = 2;
+  int32 current_floor = 3;
+  int32 gold = 4;
+  repeated Unit party = 5;  // max 6
+  repeated string inventory = 6;  // item IDs
+  map<string, int32> class_mastery = 7;  // class_id -> mastered_skills_count
+  map<string, int32> skill_bank = 8;  // skill_id -> count (unlocked)
+  int32 total_class_points = 9;
+}
+
+message GameSaveData {
+  string save_id = 1;
+  int32 version = 2;
+  int64 timestamp = 3;
+  PlayerData player = 4;
+  Map current_map = 5;
+  BattleState battle_state = 6;  // if mid-battle
+}

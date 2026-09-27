@@ -1,0 +1,60 @@
+# Taplo Configuration for TOML formatting
+# https://taplo.tamasfe.dev/configuration/
+
+[formatting]
+# Indentation
+indent = 2
+# Indent entries
+indent_entries = true
+# Indent keys
+indent_keys = false
+# Align entries
+align_entries = false
+# Align comments
+align_comments = false
+# Reorder keys
+reorder_keys = false
+# Reorder arrays
+reorder_arrays = false
+# Trailing comma in arrays
+trailing_comma = true
+# Trailing comma in tables
+trailing_comma_in_tables = true
+# Compact arrays
+compact_arrays = false
+# Compact inline tables
+compact_inline_tables = false
+# Allowed blank lines
+allowed_blank_lines = 1
+# Column width
+column_width = 100
+# Indent string
+indent_string = "  "
+# Newline
+newline = "LF"
+
+# Array formatting
+[formatting.array]
+# Single line if short
+single_line = true
+# Indent
+indent = 2
+
+# Inline table formatting
+[formatting.inline-table]
+# Single line if short
+single_line = true
+# Indent
+indent = 2
+
+# Table formatting
+[formatting.table]
+# Single line if short
+single_line = false
+
+# Key formatting
+[formatting.key]
+# Bare keys
+bare = true
+# Quote style
+quote_style = "double"

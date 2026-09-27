@@ -1,0 +1,117 @@
+{
+  "nodes": [
+    {
+      "id": "9f2d74b1a8c6e305",
+      "type": "text",
+      "x": 0,
+      "y": 0,
+      "width": 520,
+      "height": 170,
+      "color": "4",
+      "text": "# Blink Arcana — Audit Map\n\nTactical RPG + Roguelike\nGodot 4 + GDScript + Rust GDExtension\n\nสถานะ: โครงและเอกสารพร้อม แต่ build/runtime ยังติด P0"
+    },
+    {
+      "id": "2a8c5e1f0d7b4396",
+      "type": "text",
+      "x": -690,
+      "y": 300,
+      "width": 560,
+      "height": 330,
+      "color": "6",
+      "text": "# สกิลที่ใช้ตรงงาน\n\n**writing-prds — สูง**\nตัดขอบเขต playable slice, metrics, acceptance criteria\n\n**json-canvas — สูง**\nแผนภาพ architecture/dependencies/phase\n\n**skill-creator — ปานกลาง-สูง**\nทำ workflow skill เฉพาะ repo เมื่อกำหนด use case ชัด\n\nเขียน-prds ถูกระบุซ้ำ; ไม่มีผลเพิ่มความสามารถ"
+    },
+    {
+      "id": "8d3b6a1e9c4f2057",
+      "type": "text",
+      "x": 0,
+      "y": 260,
+      "width": 580,
+      "height": 390,
+      "color": "1",
+      "text": "# ตัวขวาง P0/P1\n\n- project.godot ใช้ PackStringArray ผิด\n- GDScript parse/API mismatch หลายไฟล์\n- manifest symbol ไม่ตรงกับ symbol ใน .so\n- ไบนารี ARM aarch64 แต่ host x86_64\n- ชื่อคลาส/signatures GDScript↔Rust ไม่ตรง\n- Rust bindings ยังมี stub\n- asset 0 ไฟล์; scene อ้าง placeholder ที่ไม่มี\n- asset-check.sh มี syntax error\n\n**ผล:** ยังไม่มี playable slice ที่ตรวจผ่านได้"
+    },
+    {
+      "id": "6f0a2e8d1c9b3475",
+      "type": "text",
+      "x": 700,
+      "y": 270,
+      "width": 560,
+      "height": 390,
+      "color": "2",
+      "text": "# Asset research\n\n**แนะนำทดลอง:** Toen’s Medieval Strategy Sprite Pack — 16×16 tactical/RPG; CC BY 4.0 ต้องให้เครดิตและเก็บ source link\n\n**UI prototype:** Kenney UI Pack — 430 sprites; CC0, commercial use, attribution not required\n\n**ไม่แนะนำจนตรวจเพิ่ม:** Seliel Summer Forest — sample ฟรี แต่ user license มีข้อจำกัดต่อโปรเจกต์ที่ใช้ AI-generated content\n\nยังไม่ลง asset ใน repo; เลือก art direction/tile size ก่อน"
+    },
+    {
+      "id": "c17a9e4b2d6f8035",
+      "type": "text",
+      "x": -690,
+      "y": 760,
+      "width": 560,
+      "height": 180,
+      "color": "1",
+      "text": "# Gate 0 — เปิดโปรเจกต์\n\nแก้ config/parse errors, class/autoload naming, resources, version matrix และ build GDExtension สำหรับ target จริง\n\nผ่านเมื่อ Godot headless import/parse สะอาด"
+    },
+    {
+      "id": "3e8b1a6d4f902c75",
+      "type": "text",
+      "x": 0,
+      "y": 760,
+      "width": 560,
+      "height": 180,
+      "color": "3",
+      "text": "# Gate 1 — Rust↔Godot contract\n\nล็อกชื่อ/arguments/returns, แทน stub, ทำ RNG ทดสอบซ้ำได้, tests สำหรับ combat/pathfinding/AI และ FFI\n\nผ่านเมื่อ cargo test + GDExt smoke tests ทำงาน"
+    },
+    {
+      "id": "a45c0d7e2b9f6318",
+      "type": "text",
+      "x": 690,
+      "y": 760,
+      "width": 560,
+      "height": 180,
+      "color": "5",
+      "text": "# Gate 2 — Vertical slice\n\nฉาก 8×8, player/enemy อย่างละ 1–2, movement, attack, enemy turn, win/lose และ HP/turn feedback\n\nผ่านเมื่อผู้เล่นอื่นเล่นจบหนึ่ง battle ได้โดยไม่ใช้ console"
+    },
+    {
+      "id": "74c1f09a6d2e835b",
+      "type": "text",
+      "x": 0,
+      "y": 1020,
+      "width": 560,
+      "height": 210,
+      "color": "4",
+      "text": "# Gate 3 — Art และ content\n\nเลือก palette/tile size/style → เพิ่ม asset pack ที่ license compatible และทำ credits → เติม map/classes/cards จาก playtest\n\nอย่าขยายคอนเทนต์ก่อน Gate 2 ผ่าน"
+    },
+    {
+      "id": "b64e0a2d7f1c9385",
+      "type": "text",
+      "x": 700,
+      "y": 760,
+      "width": 560,
+      "height": 390,
+      "color": "6",
+      "text": "# สกิลที่ไม่ควรฝืนใช้กับเกมหลัก\n\n- **GSAP:** เว็บ DOM/SVG/Pixi; ใช้ได้กับ landing page เท่านั้น\n- **Stitch extractor:** อ่าน frontend source ไม่ใช่ Godot scenes/scripts\n- **financial-analysis:** ข้อมูลการเงินจริง ไม่ใช่ game economy/combat balance\n- **example-skill:** ตัวอย่าง Claude plugin skill; ใช้เป็นแนวคิด ไม่ใช่ implementation\n- **video-generator:** เหมาะ teaser/devlog หลังมี gameplay/visual ที่ชัด"
+    },
+    {
+      "id": "e3a17c9d5f2046b8",
+      "type": "text",
+      "x": -690,
+      "y": 1020,
+      "width": 560,
+      "height": 210,
+      "color": "3",
+      "text": "# Quality gates\n\n1. Godot headless parse/import\n2. Cargo workspace tests + GDExt build\n3. Binding smoke tests\n4. Battle loop acceptance tests\n5. Asset/license checker in CI\n\nปัจจุบันตรวจ shell พบ asset-check syntax error; cargo ไม่มีใน sandbox จึงยังไม่ยืนยัน Rust tests"
+    }
+  ],
+  "edges": [
+    {"id":"0c2e5a8d1f7b4396","fromNode":"9f2d74b1a8c6e305","fromSide":"left","toNode":"2a8c5e1f0d7b4396","toSide":"top","toEnd":"arrow","label":"skill-fit"},
+    {"id":"1a4d7e0b3c6f9258","fromNode":"9f2d74b1a8c6e305","fromSide":"bottom","toNode":"8d3b6a1e9c4f2057","toSide":"top","toEnd":"arrow","label":"current state"},
+    {"id":"2b5e8a1d4c7f0396","fromNode":"9f2d74b1a8c6e305","fromSide":"right","toNode":"6f0a2e8d1c9b3475","toSide":"top","toEnd":"arrow","label":"asset leads"},
+    {"id":"3c6f9a2e5d8b1047","fromNode":"8d3b6a1e9c4f2057","fromSide":"bottom","toNode":"c17a9e4b2d6f8035","toSide":"top","toEnd":"arrow","label":"fix first"},
+    {"id":"4d7a0b3e6f9c2158","fromNode":"8d3b6a1e9c4f2057","fromSide":"bottom","toNode":"3e8b1a6d4f902c75","toSide":"top","toEnd":"arrow","label":"then align"},
+    {"id":"5e8b1c4d7a0f3269","fromNode":"8d3b6a1e9c4f2057","fromSide":"bottom","toNode":"a45c0d7e2b9f6318","toSide":"top","toEnd":"arrow","label":"prove playable"},
+    {"id":"6f9c2d5e8b1a4370","fromNode":"a45c0d7e2b9f6318","fromSide":"bottom","toNode":"74c1f09a6d2e835b","toSide":"top","toEnd":"arrow","label":"after slice"},
+    {"id":"7a0d3e6f9c2b5481","fromNode":"6f0a2e8d1c9b3475","fromSide":"bottom","toNode":"74c1f09a6d2e835b","toSide":"right","toEnd":"arrow","label":"choose then integrate"},
+    {"id":"8b1e4f7a0d3c6592","fromNode":"2a8c5e1f0d7b4396","fromSide":"bottom","toNode":"e3a17c9d5f2046b8","toSide":"left","toEnd":"arrow","label":"quality plan"},
+    {"id":"9c2f5a8b1e4d7603","fromNode":"3e8b1a6d4f902c75","fromSide":"left","toNode":"e3a17c9d5f2046b8","toSide":"right","toEnd":"arrow","label":"verify"},
+    {"id":"ad3c6f9b2e5a8174","fromNode":"a45c0d7e2b9f6318","fromSide":"left","toNode":"e3a17c9d5f2046b8","toSide":"right","toEnd":"arrow","label":"CI gates"}
+  ]
+}

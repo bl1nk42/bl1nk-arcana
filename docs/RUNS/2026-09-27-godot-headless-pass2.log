@@ -1,0 +1,122 @@
+# Terminal Full Output
+# Terminal: godot-pass2
+# Command: cd /home/ubuntu/work/bl1nk-arcana/bl1nk-arcana-desktop && GODOT_SILENCE_ROOT_WARNING=1 godot --headless --editor --path godot --quit > /tmp/blink-godot-pass2.log 2>&1 || true; python3 - <<'PY'
+import pathlib
+p=pathlib.Path('/tmp/blink-godot-pass2.log')
+lines=p.read_text(errors='replace').splitlines()
+for line in lines:
+ if 'SCRIPT ERROR:' in line or 'Parse Error:' in line or line.startswith('ERROR:'):
+  print(line)
+print('\nError count:', sum(('SCRIPT ERROR:' in x or 'Parse Error:' in x or x.startswith('ERROR:')) for x in lines))
+PY
+# PID: 1149
+# Timestamp: 2026-09-27_18-32-47.845663
+# Original Length: 10531 characters
+# ----------------------------------------
+
+[32mubuntu@sandbox:~$ [0mcd /home/ubuntu/work/bl1nk-arcana/bl1nk-arcana-desktop && GODOT_SILENCE_ROOT_WARNING=1 godot --headless --editor --path godot --quit > /tmp/blink-godot-pass2.log 2>&1 || true; python3 - <<'PY'
+import pathlib
+p=pathlib.Path('/tmp/blink-godot-pass2.log')
+lines=p.read_text(errors='replace').splitlines()
+for line in lines:
+ if 'SCRIPT ERROR:' in line or 'Parse Error:' in line or line.startswith('ERROR:'):
+  print(line)
+print('\nError count:', sum(('SCRIPT ERROR:' in x or 'Parse Error:' in x or x.startswith('ERROR:')) for x in lines))
+PY
+ERROR: Can't open dynamic library: /home/ubuntu/work/bl1nk-arcana/bl1nk-arcana-desktop/godot/addons/blink_core/bin/libblink_gdext.so. Error: /home/ubuntu/work/bl1nk-arcana/bl1nk-arcana-desktop/godot/addons/blink_core/bin/libblink_gdext.so: cannot open shared object file: No such file or directory.
+ERROR: Can't open GDExtension dynamic library: 'res://addons/blink_core/blink_core.gdextension'.
+ERROR: Error loading extension: 'res://addons/blink_core/blink_core.gdextension'.
+ERROR: Can't open dynamic library: /home/ubuntu/work/bl1nk-arcana/bl1nk-arcana-desktop/godot/addons/blink_core/bin/libblink_gdext.so. Error: /home/ubuntu/work/bl1nk-arcana/bl1nk-arcana-desktop/godot/addons/blink_core/bin/libblink_gdext.so: cannot open shared object file: No such file or directory.
+ERROR: Can't open GDExtension dynamic library: 'res://addons/blink_core/blink_core.gdextension'.
+SCRIPT ERROR: Parse Error: Member "is_ready" is not a function.
+SCRIPT ERROR: Parse Error: Name "is_ready" called as a function but is a "bool".
+ERROR: Failed to load script "res://scripts/autoload/CardDatabase.gd" with error "Parse error".
+ERROR: Failed to create an autoload, script 'res://scripts/autoload/CardDatabase.gd' is not compiling.
+SCRIPT ERROR: Parse Error: Expected statement, found "Indent" instead.
+ERROR: Failed to load script "res://scripts/autoload/AudioManager.gd" with error "Parse error".
+ERROR: Failed to create an autoload, script 'res://scripts/autoload/AudioManager.gd' is not compiling.
+SCRIPT ERROR: Parse Error: Static function "is_initialized()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "get_save_system()" not found in base "GDScriptNativeClass".
+ERROR: Failed to load script "res://scripts/autoload/SaveManager.gd" with error "Parse error".
+ERROR: Failed to create an autoload, script 'res://scripts/autoload/SaveManager.gd' is not compiling.
+SCRIPT ERROR: Parse Error: Cannot find member "TEXTURE_FILTER_NEAREST" in base "RenderingServer".
+SCRIPT ERROR: Parse Error: Cannot find member "TEXTURE_FILTER_LINEAR" in base "RenderingServer".
+SCRIPT ERROR: Parse Error: Static function "set_default_texture_filter()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "is_initialized()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "call_rust()" not found in base "GDScriptNativeClass".
+ERROR: Failed to load script "res://scripts/autoload/SettingsManager.gd" with error "Parse error".
+ERROR: Failed to create an autoload, script 'res://scripts/autoload/SettingsManager.gd' is not compiling.
+SCRIPT ERROR: Parse Error: Expected parameter name.
+ERROR: Failed to load script "res://scripts/autoload/GDExtensionManager.gd" with error "Parse error".
+ERROR: Failed to create an autoload, script 'res://scripts/autoload/GDExtensionManager.gd' is not compiling.
+SCRIPT ERROR: Parse Error: Expected parameter name.
+SCRIPT ERROR: Parse Error: Cannot find member "TEXTURE_FILTER_NEAREST" in base "RenderingServer".
+SCRIPT ERROR: Parse Error: Cannot find member "TEXTURE_FILTER_LINEAR" in base "RenderingServer".
+SCRIPT ERROR: Parse Error: Static function "set_default_texture_filter()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "is_initialized()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "call_rust()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "is_initialized()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "get_save_system()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Expected statement, found "Indent" instead.
+SCRIPT ERROR: Parse Error: Member "is_ready" is not a function.
+SCRIPT ERROR: Parse Error: Name "is_ready" called as a function but is a "bool".
+ERROR: Can't open dynamic library: /home/ubuntu/work/bl1nk-arcana/bl1nk-arcana-desktop/godot/addons/blink_core/bin/libblink_gdext.so. Error: /home/ubuntu/work/bl1nk-arcana/bl1nk-arcana-desktop/godot/addons/blink_core/bin/libblink_gdext.so: cannot open shared object file: No such file or directory.
+ERROR: Can't open GDExtension dynamic library: 'res://addons/blink_core/blink_core.gdextension'.
+SCRIPT ERROR: Parse Error: Unindent doesn't match the previous indentation level.
+ERROR: Failed to load script "res://scripts/battle/BattleController.gd" with error "Parse error".
+SCRIPT ERROR: Parse Error: Static function "is_initialized()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "pathfinding_get_reachable()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Identifier "pos" not declared in the current scope.
+SCRIPT ERROR: Parse Error: Identifier "cost" not declared in the current scope.
+ERROR: Failed to load script "res://scripts/battle/GridManager.gd" with error "Parse error".
+SCRIPT ERROR: Parse Error: Function "die()" not found in base self.
+SCRIPT ERROR: Parse Error: Cannot find member "emit" in base "bool".
+SCRIPT ERROR: Parse Error: Function "emit()" not found in base bool.
+SCRIPT ERROR: Parse Error: Identifier "GpuParticles2D" not declared in the current scope.
+ERROR: Failed to load script "res://scripts/units/Unit.gd" with error "Parse error".
+SCRIPT ERROR: Parse Error: Cannot call non-static function "_grid_to_world()" on the class "GridManager" directly. Make an instance instead.
+SCRIPT ERROR: Parse Error: Cannot call non-static function "set_occupant()" on the class "GridManager" directly. Make an instance instead.
+SCRIPT ERROR: Parse Error: Cannot call non-static function "set_occupant()" on the class "GridManager" directly. Make an instance instead.
+SCRIPT ERROR: Parse Error: Cannot call non-static function "_grid_to_world()" on the class "GridManager" directly. Make an instance instead.
+SCRIPT ERROR: Parse Error: Cannot find member "set_occupant" in base "GridManager".
+SCRIPT ERROR: Parse Error: Static function "combat_resolve()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "combat_resolve()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "call_rust()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Cannot call non-static function "set_occupant()" on the class "GridManager" directly. Make an instance instead.
+SCRIPT ERROR: Parse Error: Cannot call non-static function "set_occupant()" on the class "GridManager" directly. Make an instance instead.
+ERROR: Failed to load script "res://scripts/battle/UnitManager.gd" with error "Parse error".
+SCRIPT ERROR: Parse Error: Static function "combat_get_damage_preview()" not found in base "GDScriptNativeClass".
+ERROR: Failed to load script "res://scripts/ui/UIManager.gd" with error "Parse error".
+SCRIPT ERROR: Parse Error: Static function "combat_get_damage_preview()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Function "die()" not found in base self.
+SCRIPT ERROR: Parse Error: Cannot find member "emit" in base "bool".
+SCRIPT ERROR: Parse Error: Function "emit()" not found in base bool.
+SCRIPT ERROR: Parse Error: Identifier "GpuParticles2D" not declared in the current scope.
+SCRIPT ERROR: Parse Error: Cannot call non-static function "_grid_to_world()" on the class "GridManager" directly. Make an instance instead.
+SCRIPT ERROR: Parse Error: Cannot call non-static function "set_occupant()" on the class "GridManager" directly. Make an instance instead.
+SCRIPT ERROR: Parse Error: Cannot call non-static function "set_occupant()" on the class "GridManager" directly. Make an instance instead.
+SCRIPT ERROR: Parse Error: Cannot call non-static function "_grid_to_world()" on the class "GridManager" directly. Make an instance instead.
+SCRIPT ERROR: Parse Error: Cannot find member "set_occupant" in base "GridManager".
+SCRIPT ERROR: Parse Error: Static function "combat_resolve()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "combat_resolve()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "call_rust()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Cannot call non-static function "set_occupant()" on the class "GridManager" directly. Make an instance instead.
+SCRIPT ERROR: Parse Error: Cannot call non-static function "set_occupant()" on the class "GridManager" directly. Make an instance instead.
+SCRIPT ERROR: Parse Error: Static function "is_initialized()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "pathfinding_get_reachable()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Identifier "pos" not declared in the current scope.
+SCRIPT ERROR: Parse Error: Identifier "cost" not declared in the current scope.
+SCRIPT ERROR: Parse Error: Unindent doesn't match the previous indentation level.
+SCRIPT ERROR: Parse Error: Expected parameter name.
+SCRIPT ERROR: Parse Error: Cannot find member "TEXTURE_FILTER_NEAREST" in base "RenderingServer".
+SCRIPT ERROR: Parse Error: Cannot find member "TEXTURE_FILTER_LINEAR" in base "RenderingServer".
+SCRIPT ERROR: Parse Error: Static function "set_default_texture_filter()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "is_initialized()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "call_rust()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "is_initialized()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Static function "get_save_system()" not found in base "GDScriptNativeClass".
+SCRIPT ERROR: Parse Error: Expected statement, found "Indent" instead.
+SCRIPT ERROR: Parse Error: Member "is_ready" is not a function.
+SCRIPT ERROR: Parse Error: Name "is_ready" called as a function but is a "bool".
+Error count: 95
+[32mubuntu@sandbox:~/work/bl1nk-arcana/bl1nk-arcana-desktop$ [0m

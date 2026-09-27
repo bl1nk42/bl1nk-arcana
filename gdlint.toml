@@ -1,0 +1,50 @@
+# GDLint Configuration for Blink Arcana
+
+[rule_set]
+extends = "standard"
+
+[rules]
+# Naming conventions
+naming_conventions_class = "PascalCase"
+naming_conventions_function = "snake_case"
+naming_conventions_variable = "snake_case"
+naming_conventions_constant = "UPPER_SNAKE_CASE"
+naming_conventions_signal = "snake_case"
+naming_conventions_enum = "PascalCase"
+naming_conventions_enum_member = "PascalCase"
+naming_conventions_resource = "PascalCase"
+
+# Type hints
+type_hint_enabled = true
+type_hint_ignore_inferrable = true
+type_hint_ignore_local_variables = false
+
+# Unused
+unused_variable_enabled = true
+unused_variable_ignore_prefix = "_"
+unused_function_enabled = true
+
+# Performance
+avoid_get_node_in_loop_enabled = true
+
+# Style
+trailing_comma_enabled = true
+trailing_comma_multiline = true
+trailing_comma_single_line = false
+max_line_length_enabled = true
+max_line_length_length = 100
+indent_enabled = true
+indent_spaces = 4
+
+# Best practices
+early_return_enabled = true
+no_empty_func_enabled = true
+no_empty_func_ignore_override = true
+
+# Godot specific
+node_path_enabled = true
+node_path_use_percent = true
+signal_connection_enabled = true
+
+# File organization
+file_header_enabled = false
