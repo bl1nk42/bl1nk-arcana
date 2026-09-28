@@ -44,7 +44,7 @@ func _apply_volumes() -> void:
 	voice_player.volume_db = linear_to_db(maxf(0.001, master_volume * voice_volume))
 
 func _preload_common_sfx() -> void:
-	for sfx_name in ["ui_click", "ui_hover", "ui_confirm", "ui_cancel", "card_draw", "card_play", "card_discard", "attack_hit", "attack_miss", "attack_crit", "heal", "buff", "debuff", "level_up", "victory", "defeat"]:
+	for sfx_name in ["ui_click", "ui_hover", "ui_confirm", "ui_cancel", "skill_use", "skill_cooldown", "skill_master", "attack_hit", "attack_miss", "attack_crit", "heal", "buff", "debuff", "level_up", "victory", "defeat"]:
 		var path := "res://assets/audio/sfx/%s.ogg" % sfx_name
 		if ResourceLoader.exists(path):
 			sfx_cache[sfx_name] = load(path)

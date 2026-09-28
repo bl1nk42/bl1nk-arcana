@@ -128,14 +128,10 @@ func get_item(item_id: String) -> Resource:
 	return items.get(item_id, null)
 
 func get_all_cards() -> Array:
-	# Cards are not cached here — CardDatabase owns them. Pull them from the
-	# Rust data registry, which is authoritative for card data.
-	if not gdext_manager or not gdext_manager.is_initialized:
-		return []
-	var rust_data = gdext_manager.get_data_registry()
-	if not rust_data is Dictionary:
-		return []
-	return rust_data.get("cards", [])
+	# Cards have been removed from the game — Skills are owned by units and
+	# resolved through the skill_database instead. This stub returns [] so any
+	# legacy caller keeps compiling until Phase 2 cleans up references.
+	return []
 
 func get_all_units() -> Array:
 	return units.values()

@@ -5,7 +5,7 @@
 | บทบาท | ผู้รับผิดชอบ |
 |--------|---------------|
 | Design / Code (Godot + Rust) | Solo Developer |
-| Art (Sprite, Card Art, UI) | Solo Developer + AI-generated Placeholder (จนกว่าจะทำ Art จริง/หา Asset Store) |
+| Art (Sprite, UI, Icon, Tileset, Animation, VFX) | Solo Developer + AI-generated Placeholder (จนกว่าจะทำ Art จริง/หา Asset Store) |
 | Level Design / QA | Solo Developer |
 | Documentation, Lore, Debug ช่วย | AI (Claude) |
 
@@ -54,51 +54,47 @@ Godot 4.x + Rust (GDExtension) | Git + GitHub | Build Target: PC (Windows/macOS/
   กิจกรรม: สร้าง unit resource ตาม stat ใน [[CLASS_TREE.md]] (Myrmidon)
   วัตถุประสงค์: มี Unit ให้เล่นได้จริงอย่างน้อย 1 ฝั่ง
 
-- [ ] **5 Basic Cards (Unit Display / Party Slot)**
-  กิจกรรม: กำหนดรายละเอียดใน [[GDD.md]] (Card System section) ให้ครบ, implement card_database.gd
-  วัตถุประสงค์: ระบบการ์ดพื้นฐานใช้งานได้ (Draw → Play)
+- [ ] **Party Roster Starter (1 Class, 6 Slot Test)**
+  กิจกรรม: สร้าง party_panel.tscn แบบ minimal (โชว์ 6 Slot, Unit 1 ตัวเป็น placeholder), ผูกกับ unit resource ตาม [[CLASS_TREE.md]] (Myrmidon)
+  วัตถุประสงค์: มี Party Roster ให้เห็น UI จริงระหว่างเทสด Battle ก่อนผูก Class+Skill เต็มรูปแบบใน Phase 2
 
-**Deliverable:** เล่น Battle จบ 1 รอบได้ (Draw → Move → Attack → Enemy Turn → End)
+**Deliverable:** เล่น Battle จบ 1 รอบได้ (Start → Move → Basic Attack → Enemy Turn → End)
 
 ---
 
-## 📅 Phase 2: Card & Class Systems (4-6 สัปดาห์)
+## 📅 Phase 2: Class & Skill Systems (4-6 สัปดาห์)
 
-**Objective:** ระบบหลักครบ ผู้เล่นรู้สึกว่าเกมสนุกและมีความลึก
+**Objective:** ระบบ Class + Skill + Element ครบ ผู้เล่นรู้สึกว่าเกมมีความลึก
 
-- [ ] **Card Database & Drawing System**
-  กิจกรรม: ขยาย card_database.gd รองรับ deck/draw pile/discard pile
-  วัตถุประสงค์: จั่วการ์ดแบบสุ่มไม่ซ้ำจนกว่า deck หมด
-
-- [ ] **Card Effects (Damage, Heal, Buff/Debuff)**
-  กิจกรรม: implement effect resolver รองรับ type ตาม schema ใน [[GDD.md]] (Card System)
-  วัตถุประสงค์: การ์ดแต่ละประเภททำงานตาม effect ที่กำหนดถูกต้อง
-
-- [ ] **Card Drag & Drop UI**
-  กิจกรรม: เขียน drag_drop.gd, hand_panel.tscn
-  วัตถุประสงค์: ผู้เล่นลากการ์ดไปยัง target ได้ลื่นไหล
-
-- [ ] **5 Class Tree (3 Tiers each)**
-  กิจกรรม: สร้าง class resource ทั้ง 15 คลาสตาม [[CLASS_TREE.md]]
+- [ ] **5 Class Tree (3 Tiers each)** — 15 Class
+  กิจกรรม: สร้าง class resource ทั้ง 15 คลาสตาม [[CLASS_TREE.md]] (Sword/Lance/Rider/Archer/Mage × T1/T2/T3)
   วัตถุประสงค์: ทุก Class มี stat และพร้อมใช้งานในเกม
 
-- [ ] **Promotion System**
-  กิจกรรม: implement logic เปลี่ยน Class ตาม Crest item, reset stat ไป base ใหม่
-  วัตถุประสงค์: เลื่อน Tier ได้ถูกต้องตามกติกาที่ระบุใน [[CLASS_TREE.md]]
+- [ ] **Promotion System (Crest Item)**
+  กิจกรรม: implement logic เปลี่ยน Class ตาม Crest item (Junior/Senior/Master + Alignment Scroll), reset stat ไป base ใหม่
+  วัตถุประสงค์: เลื่อน Tier/เปลี่ยนสายได้ถูกต้องตามกติกา [[CLASS_TREE.md]]
+
+- [ ] **Skill Pool ครบ 5 สาย × 3 Tier**
+  กิจกรรม: เติม [[CLASS_TREE.md]] ส่วน Skill Unlock Table ให้ครบ (Sword template เสร็จแล้ว, เหลือ Lance/Rider/Archer/Mage 4 สาย)
+  วัตถุประสงค์: ทุก Class Line มี Skill Pool พร้อมใช้งาน
 
 - [ ] **Skill System (6 Slots, 1-2 Size)**
-  กิจกรรม: สร้าง skill resource, slot allocation logic ตาม [[SKILL_SYSTEM.md]]
-  วัตถุประสงค์: ใส่/ถอดสกิลได้ตาม slot จำกัด และสกิลมีผลจริงในคอมแบต
+  กิจกรรม: สร้าง skill resource + slot allocation logic ตาม [[SKILL_SYSTEM.md]]
+  วัตถุประสงค์: ใส่/ถอดสกิลได้ตาม slot จำกัด และสกิลมีผลจริงในคอมแบต (Passive/Active/Reactive/Command + Cooldown + CP)
 
 - [ ] **Element System (5 Elements + Neutral)**
   กิจกรรม: implement effectiveness table จาก [[GDD.md]] (Element System) ใน combat.rs
   วัตถุประสงค์: ดาเมจเปลี่ยนตาม element matchup ถูกต้อง
 
-- [ ] **กำหนด Skill Pool สายที่เหลือ (Lance/Rider/Archer/Mage)**
-  กิจกรรม: เติม [[CLASS_TREE.md]] ส่วน Skill Unlock Table ให้ครบ
-  วัตถุประสงค์: ทุก Class Line มี Skill Pool พร้อมใช้งาน
+- [ ] **Skill Effect Resolver**
+  กิจกรรม: implement effect resolver รองรับ Damage, Heal, Buff/Debuff, Aura, Guard ตาม schema ใน [[SKILL_SYSTEM.md]]
+  วัตถะประสงค์: สกิลแต่ละประเภททำงานตาม effect ที่กำหนดถูกต้อง
 
-**Deliverable:** ระบบ Card + Class + Skill + Element ทำงานร่วมกันครบ
+- [ ] **Party Slot UI (6 Slot ต่อผู้เล่น)**
+  กิจกรรม: สร้าง party_panel.tscn, แสดง Unit roster + Skill ที่ติดตัว + สลับ Active 6 ตัว
+  วัตถุประสงค์: ผู้เล่นเห็นและจัดการ Party ก่อน Battle ได้
+
+**Deliverable:** ระบบ Class + Skill + Element + Party ทำงานร่วมกันครบ
 
 ---
 
@@ -106,7 +102,7 @@ Godot 4.x + Rust (GDExtension) | Git + GitHub | Build Target: PC (Windows/macOS/
 
 **Objective:** เกมเล่นได้ครบ Flow ตั้งแต่ต้นจนจบ
 
-- [ ] **20+ Cards** — ขยาย [[GDD.md]] (Card List) ให้ครบ
+- [ ] **Skill Pool ขยาย** — เพิ่ม Skill ตัวเลือกในแต่ละ Class ให้หลากหลายขึ้น
 - [ ] **10+ Maps** — ออกแบบ layout หลากหลาย terrain ตาม [[GDD.md]] (Terrain System)
 - [ ] **10+ Enemy Types** — กำหนด unit resource ฝั่งศัตรู ตาม [[CLASS_TREE.md]]
 - [ ] **Boss Design** — ออกแบบ boss encounter (ใช้ Throne terrain ตาม [[GDD.md]])
@@ -126,7 +122,7 @@ Godot 4.x + Rust (GDExtension) | Git + GitHub | Build Target: PC (Windows/macOS/
 - [ ] **Intention System** — แสดง indicator ว่า AI จะเดิน/โจมตีจุดไหนก่อนจบเทิร์นผู้เล่น
 - [ ] **AI Personalities** (Aggressive/Defensive/Tactical) — ขยาย ai.rs รองรับ behavior หลายแบบ
 - [ ] **Adaptive Difficulty** — ปรับ enemy stat/behavior ตาม performance ผู้เล่น
-- [ ] **Balance Testing** — ทดสอบ stat/card power/enemy difficulty ร่วมกับ playtester ภายนอก
+- [ ] **Balance Testing** — ทดสอบ stat/skill power/enemy difficulty ร่วมกับ playtester ภายนอก
 - [ ] **Bug Fixing** — แก้ปัญหาจาก playtest feedback
 - [ ] **Performance Optimization** — profile Rust core และ Godot scene ที่หนัก
 

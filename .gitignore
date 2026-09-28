@@ -1,0 +1,28 @@
+# Rust build artifacts
+rust/target/
+rust/**/target/
+
+# Godot build artifacts
+godot/.godot/
+godot/addons/**/bin/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
+*.swp
+*.swo
+
+# Local env
+.env
+.env.local
+*.local
+
+# Temporary / scratch
+*.tmp
+*.bak
+*.log.tmp
+.cache/

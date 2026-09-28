@@ -3,7 +3,7 @@
 ## 🎮 Game Overview
 
 **ชื่อเกม:** Blink Arcana
-**ประเภท:** Tactical RPG + Card Deckbuilder + Roguelike
+**ประเภท:** Tactical RPG + Roguelike
 **Engine:** Godot 4.x + Rust (GDExtension)
 **Platform:** PC (เวอร์ชันแรก), ขยายได้ในอนาคต
 
@@ -19,10 +19,12 @@
 
 ### Turn Structure
 
-1. Draw Phase (ได้การ์ดใหม่)
-2. Player Turn: Move → Action (ใช้การ์ด)
+1. Start Phase (สถานะเริ่มเทิร์น + ผลของ Terrain/Aura ต่อเนื่อง)
+2. Player Turn: เลือก Unit → Move (≤ MOV) → Action (Basic Attack หรือ Skill ที่ติดตัว)
 3. Enemy Turn (Smart AI)
-4. End Phase
+4. End Phase (ล้างสถานะหมดเทิร์น, ตรวจชนะ/แพ้)
+
+> **หมายเหตุ:** เกมนี้ไม่มีระบบการ์ด (Card/Deck/Hand) — ทุก Action เป็น Skill ที่ติด Unit ตาม Slot จำกัด (ดู [[SKILL_SYSTEM]]) และทุก Unit เลือก Action ได้จาก Skill ของตัวเองโดยตรง ไม่ต้อง Draw
 
 ---
 
@@ -92,7 +94,7 @@ Heal Amount = INT × 0.5 + Skill Bonus  (ห้ามเกิน Max HP)
 
 ## 🎴 Skill System
 
-**6 Slots ต่อ Unit**, สกิลมี 2 ขนาด: 1 Slot (เล็ก) หรือ 2 Slots (ใหญ่)
+**6 Slots ต่อ Unit**, สกิลมี 2 ขนาด: 1 Slot (เล็ก) หรือ 2 Slots (ใหญ่) — **สกิลติดตัว Unit โดยตรง ไม่มีระบบ Draw/Hand/Deck**
 
 | 1 Slot (เล็ก) | 2 Slots (ใหญ่) |
 |---------------|-----------------|
@@ -174,22 +176,23 @@ XXX = ผ่านไม่ได้/ยืนไม่ได้ | Fire+/Water+ 
 bl1nk-arcana/
 ├── godot_project/
 │   ├── scenes/
-│   │   ├── main.tscn / battle.tscn / map.tscn / unit.tscn / card.tscn
-│   │   └── ui/ (hud, hand_panel, unit_info, shop)
+│   │   ├── main.tscn / battle.tscn / map.tscn / unit.tscn
+│   │   └── ui/ (hud, party_panel, unit_info, shop)
 │   ├── scripts/
-│   │   ├── autoload/ (game_manager.gd, card_database.gd)
+│   │   ├── autoload/ (game_manager.gd, skill_database.gd)
 │   │   ├── battle/ (battle_manager.gd, turn_handler.gd, unit_selector.gd, tile_highlighter.gd)
-│   │   ├── ui/ (card_ui.gd, drag_drop.gd)
+│   │   ├── ui/ (skill_ui.gd, party_panel.gd)
 │   │   └── main_menu.gd
-│   ├── resources/ (units/ cards/ classes/ skills/ items/)
+│   ├── resources/ (units/ classes/ skills/ items/)
 │   ├── assets/ (sprites/ sfx/ music/)
 │   └── project.godot
 ├── rust_core/
-│   ├── Cargo.toml
 │   └── src/ (lib.rs, combat.rs, ai.rs, pathfinding.rs, data.rs, skills.rs)
-├── docs/ (GDD.md, CLASS_TREE.md, CARD_LIST.md, TASK_PLAN.md)
+├── docs/ (GDD.md, CLASS_TREE.md, SKILL_SYSTEM.md, TASK_PLAN.md)
 └── build/ (windows/ macos/ linux/)
 ```
+
+> **หมายเหตุ:** โครงสร้างในไฟล์นี้เป็นเวอร์ชันเก่า (godot_project/rust_core แบนรวมกัน) — โครงสร้างจริงที่ใช้แยก Godot project กับ Rust workspace ตาม [[PDR.md#32-โครงสร้างรีโพใหม่-แทนโครงสร้างเดิมที่พัง]]
 
 ---
 
@@ -202,6 +205,4 @@ bl1nk-arcana/
 - **Build Target:** PC (Windows/macOS/Linux) — เวอร์ชันแรก
 - **Deployment (Web build ถ้ามี):** พิจารณา Vercel สำหรับหน้า landing/devlog
 
----
-
-*เอกสารที่เกี่ยวข้อง: `CLASS_TREE.md` (รายละเอียด Class/Skill), `CARD_LIST.md` (รายการการ์ด), `TASK_PLAN.md` (แผนงานและ Task Breakdown)*
+*เอกสารที่เกี่ยวข้อง: `CLASS_TREE.md` (รายละเอียด Class/Skill), `SKILL_SYSTEM.md` (กติกา Skill/CP/Slot/Bank/Guard), `TASK_PLAN.md` (แผนงานและ Task Breakdown)*

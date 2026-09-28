@@ -122,7 +122,6 @@ open_menu={
 [autoload]
 
 GameManager="*res://scripts/autoload/GameManager.gd"
-CardDatabase="*res://scripts/autoload/CardDatabase.gd"
 DataRegistry="*res://scripts/autoload/DataRegistry.gd"
 AudioManager="*res://scripts/autoload/AudioManager.gd"
 SaveManager="*res://scripts/autoload/SaveManager.gd"

@@ -1,6 +1,6 @@
 //! Stats calculations — Base formulas from PDR.md Section 2.4
 //!
-//! Bonus from Card/Weapon Rank/Skill/Aura/Class are applied externally
+//! Bonus from Weapon Rank/Skill/Aura/Class are applied externally
 //! via SkillEffect / WeaponAbility / Class modifiers.
 
 use std::collections::HashMap;

@@ -28,7 +28,7 @@ Tactical RPG + Roguelike · Godot 4 + Rust (GDExtension)
 | Document | Description |
 | --- | --- |
 | [PDR.md](PDR.md) | Foundation Document (Source of Truth) |
-| [GDD.md](GDD.md) | Game Design — Card/Class/Skill/Weapon/Element/Terrain/AI |
+| [GDD.md](GDD.md) | Game Design — Unit/Stats/Element/Terrain/Combat Formula/Smart AI |
 | [CLASS_TREE.md](CLASS_TREE.md) | Class Tree + Promotion Rules + Skill Unlock Table |
 | [SKILL_SYSTEM.md](SKILL_SYSTEM.md) | Skill Types, CP, Bank, Guard Rule, Aura, Pool |
 | [WEAPON_SYSTEM.md](WEAPON_SYSTEM.md) | Weapon Type, Rank, Ability, Durability |
@@ -83,7 +83,7 @@ blink-arcana/
 | --- | --- | --- |
 | 1: Foundation | 1-2 weeks | Dev Environment ready |
 | 2: Core Prototype | 4-6 weeks | Playable Battle |
-| 3: Systems | 4-6 weeks | Card/Class/Skill/Weapon complete |
+| 3: Systems | 4-6 weeks | Class Tree (5 Lines × 3 Tiers) + Skill Pool + Element System complete |
 | 4: Content & Polish | 4-6 weeks | Full game loop playable |
 | 5: Smart AI & Balance | 2-4 weeks | Fun, balanced AI |
 | 6: Release | 2-4 weeks | Shippable build |

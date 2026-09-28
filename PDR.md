@@ -40,10 +40,12 @@ AI ในเกมต้อง "สนุก" ไม่ใช่แค่ "โ�
 
 ระบบต่อไปนี้มีเอกสารรายละเอียดครบอยู่แล้ว ให้อ้างอิงโดยตรง:
 
-- **Card System** → `GDD.md`
 - **Class Tree / Promotion** → `CLASS_TREE.md`
 - **Skill System** → `SKILL_SYSTEM.md`
 - **Weapon System** → `WEAPON_SYSTEM.md`
+- **Unit / Stats / Element / Terrain / Combat Formula / Smart AI** → `GDD.md`
+
+> **หมายเหตุ:** เกมนี้ไม่มีระบบ Card/Deck/Hand ตามที่กำหนดใน `docs/GLOSSARY.md` — Action ทั้งหมดของ Unit มาจาก Skill ที่ติดตัว (จำกัดด้วย Slot) ไม่ใช่การจั่วไพ่
 
 ---
 
@@ -82,7 +84,7 @@ Hit Chance = 100 - AVO (Clamp 5%-95%)
 Heal Amount = INT × 0.5 (สูงสุดเท่ากับ Max HP)
 ```
 
-> Bonus จาก Card/Weapon Rank/Skill/Aura/Class ดูในเอกสารอ้างอิง: [[GDD.md]] [[CLASS_TREE.md]] [[SKILL_SYSTEM.md]] [[WEAPON_SYSTEM.md]]
+| Bonus จาก Weapon Rank/Skill/Aura/Class ดูในเอกสารอ้างอิง: [[GDD.md]] [[CLASS_TREE.md]] [[SKILL_SYSTEM.md]] [[WEAPON_SYSTEM.md]]
 
 ### 2.5 Smart AI System
 
@@ -154,7 +156,7 @@ blink-arcana/
 │   └── blink_v1.proto # Schema กลาง (prost) — Unit, Skill*, Item, Tile, Map,
 │   # BattleState, CombatResult, AIDecision,
 │   # BattleCommand, BattleEvent, PlayerData, GameSaveData
-│   # (Card/Class/Skill/Weapon fields ดูที่เอกสารอ้างอิง)
+│   # (Class/Skill/Weapon fields ดูที่เอกสารอ้างอิง)
 ├── PDR.md
 ├── GDD.md
 ├── CLASS_TREE.md
@@ -194,7 +196,7 @@ blink-arcana/
 ใช้ Protocol Buffers (proto3) ผ่าน `prost` crate เป็น Data Layer กลางระหว่าง Rust กับ Godot ครอบคลุม Entity:
 Unit, Item, Tile, Map, BattleState, CombatResult, AIDecision, BattleCommand, BattleEvent, PlayerData, GameSaveData
 
-> หมายเหตุ: ฟิลด์เกี่ยวกับ Card/Class/Skill/Weapon อ้างอิงเพิ่มเติมจากเอกสาร: [[GDD.md]] [[CLASS_TREE.md]] [[SKILL_SYSTEM.md]] [[WEAPON_SYSTEM.md]]
+> หมายเหตุ: ฟิลด์เกี่ยวกับ Class/Skill/Weapon อ้างอิงเพิ่มเติมจากเอกสาร: [[GDD.md]] [[CLASS_TREE.md]] [[SKILL_SYSTEM.md]] [[WEAPON_SYSTEM.md]]
 
 ### 3.4 Tech Stack สรุป
 
@@ -209,7 +211,7 @@ Unit, Item, Tile, Map, BattleState, CombatResult, AIDecision, BattleCommand, Bat
 | Build Tool | Just (justfile) + Docker |
 | CI/CD | Buildkite หรือ GitHub Actions |
 | Version Control | Git + GitHub |
-| Project Management | ClickUp (Features) + Linear (Bugs/Issues) |
+| การจัดการ Project | ไฟล์ `TASK_PLAN.md` (แทน ClickUp/Linear เพราะทำ Solo) |
 
 ---
 
@@ -231,13 +233,13 @@ Unit, Item, Tile, Map, BattleState, CombatResult, AIDecision, BattleCommand, Bat
 
 **หลักการสำคัญ:** "ถ้าไม่แน่ใจ → ถามก่อน อย่าเดา" — AI ต้องตรวจสอบ PRD และ Spec Sheet ก่อน Implement ทุกครั้ง ถ้าไม่มีใน PRD ต้องถาม User ก่อน ห้ามเพิ่ม Feature เอง
 
-### 4.3 ClickUp + Linear
+### 4.3 Task Tracking (TASK_PLAN.md แทน ClickUp/Linear)
 
-**ClickUp — "จะทำอะไร" (Work to do):** Sprint Planning, Feature/Design/Documentation Tasks, Views: Board/List/Timeline/Workload/Calendar
+**TASK_PLAN.md — "จะทำอะไร" (Work to do) + Bug Tracking:** Sprint Planning, Feature/Design/Documentation Tasks, Bug/Issue Tracking, Tech Debt, Performance/Security Issues — ทุกอย่างอยู่ในไฟล์เดียวเพราะทำ Solo
 
-**Linear — "มีปัญหาอะไร" (Problems to fix):** Bug/Issue Tracking, Tech Debt, Performance/Security Issues, Workflow: Triage → Confirmed → Todo → In Progress → In Review → Done, Labels: bug, feature-request, tech-debt, performance, rust-core, godot, proto
+**Workflow:** Backlog → Todo (Phase) → In Progress → In Review → Done (พร้อม evidence/commit ใน `docs/CHANGELOG.md`)
 
-**การเชื่อมโยง:** ใส่ Linear Issue ID ใน ClickUp Task (และกลับกัน) · GitHub PR: `feat(BLN-123): ...` + `Fixes LIN-456` · Branch: `feature/xxx` (ClickUp), `linear/ABC-123-xxx` (Linear Bug)
+**Branch Convention:** `feature/<phase>-<feature>` (e.g. `feature/phase1-grid-system`) — PR title ใช้ Conventional Commits: `feat(phase1): grid system + A* pathfinding`
 
 ### 4.4 Claude Code Setup
 
@@ -304,14 +306,14 @@ Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
 
 ## 6. ขั้นตอนการพัฒนาและ Sprint
 
-### 6.1 Daily Workflow Loop
+### 6.1 Daily Workflow Loop (Solo Dev)
 
-1. `/standup` — ดู tasks วันนี้, blockers, วางแผน
-2. `/spec` + `/understand` — อ่าน Spec Sheet, ยืนยันความเข้าใจ
+1. `/standup` — ดู tasks วันนี้จาก `TASK_PLAN.md`, blockers, วางแผน
+2. `/spec` + `/understand` — อ่าน Spec Sheet ล่าสุดใน `docs/SPECS/`, ยืนยันความเข้าใจ
 3. เขียน Code — ตาม Spec, คอมเมนต์ภาษาไทย, เขียน Test
 4. `just fmt` → `just lint` → `just quality`
 5. Commit + Push — Conventional Commits
-6. Update ClickUp + docs
+6. Update `TASK_PLAN.md` + `docs/CHANGELOG.md`
 
 ### 6.2 2-Week Sprint Cycle
 
@@ -326,40 +328,50 @@ Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
 
 ### 6.3 Development Phases
 
+> Phase 1: Foundation (ตั้ง Repo, CI/CD, Docker, PRD, Glossary, Tooling) ดำเนินการเสร็จแล้วก่อนเริ่ม Phase 2 — รายละเอียดอยู่ใน commit history และ `docs/CHANGELOG.md`
+
 | Phase | ระยะเวลา | สิ่งที่ทำ | Deliverable |
 | --- | --- | --- | --- |
-| Phase 1: Foundation | 1-2 สัปดาห์ | ตั้ง Repo ตามโครงสร้างใหม่, CI/CD, Docker, PRD, Glossary, ClickUp/Linear | Dev Environment พร้อมใช้งาน |
-| Phase 2: Core Prototype | 4-6 สัปดาห์ | Grid System, Unit Movement, Basic Combat, Simple AI, 1 Map | เล่น Battle ได้ |
-| Phase 3: Systems | 4-6 สัปดาห์ | ระบบ Card/Class/Skill/Weapon ตามเอกสารอ้างอิง [[GDD.md]] [[CLASS_TREE.md]] [[SKILL_SYSTEM.md]] [[WEAPON_SYSTEM.md]] | ระบบหลักครบ |
-| Phase 4: Content & Polish | 4-6 สัปดาห์ | Maps, Enemy Types, Boss, Terrain, Item, VFX, Sound | เกมเล่นได้ครบ Flow |
-| Phase 5: Smart AI & Balance | 2-4 สัปดาห์ | Intention System, AI Personalities, Adaptive Difficulty, Balance | AI สนุก ไม่โหดเกินไป |
-| Phase 6: Release | 2-4 สัปดาห์ | Main Menu, Save/Load, Tutorial, Playtesting, Build, Release | เกมจำหน่ายได้ |
+| Phase 1: Core Prototype | 4-6 สัปดาห์ | Grid System, Unit Movement, Basic Combat, Simple AI, 1 Map | เล่น Battle ได้ |
+| Phase 2: Class & Skill Systems | 4-6 สัปดาห์ | Class Tree (5 Lines × 3 Tiers), Promotion, Skill Pool ครบ, Element System, Slot Allocation | ระบบ Class + Skill + Element ทำงานครบ |
+| Phase 3: Content & Polish | 4-6 สัปดาห์ | Maps, Enemy Types, Boss, Terrain ครบ, Item/Accessory, VFX, Sound | เกมเล่นได้ครบ Flow |
+| Phase 4: Smart AI & Balance | 2-4 สัปดาห์ | Intention System, AI Personalities, Adaptive Difficulty, Balance | AI สนุก ไม่โหดเกินไป |
+| Phase 5: Release | 2-4 สัปดาห์ | Main Menu, Save/Load, Tutorial, Playtesting, Build, Release | เกมจำหน่ายได้ |
 
-### 6.4 Pre-Development Checklist
+### 6.4 Pre-Development Checklist (สถานะ ณ วันที่เริ่ม Phase 1: Core Prototype)
 
-- ☑ PRD สมบูรณ์ · Glossary ครบ · Spec Sheets สำหรับทุก Feature
+**Foundation (เสร็จแล้ว — ดู commit history และ `docs/CHANGELOG.md`):**
 - ☑ Repository ตามโครงสร้างใหม่ (มาตรา 3.2) · Git Flow · Docker Dev Environment · CI/CD ทำงานได้
-- ☑ ClickUp Workspace + Task Templates + Epics + Sprint แรกวางแผนแล้ว
+- ☑ PRD (PDR.md) สมบูรณ์ · Glossary ครบ (`docs/GLOSSARY.md`)
 - ☑ CLAUDE.md + Commands (7 ตัว) + Rules (4 ไฟล์) สร้างเสร็จ
-- ☑ Core Loop Prototype ทำแล้ว · Paper Prototype ทดสอบแล้ว
-- ☑ Core Features Locked · Change Control Process ชัดเจน
-- ☑ Communication Channel ตั้งค่าแล้ว · Daily Standup ตกลงเวลาแล้ว
+- ☑ Task Tracker ตั้งค่าแล้ว (`TASK_PLAN.md` แทน ClickUp/Linear เพราะทำ Solo)
+
+**Pre-Phase-1 Gate (ต้องทำให้เสร็จก่อนเริ่มเขียน Phase 1 Code):**
+- [ ] Spec Sheet แรกสำหรับ Grid System + Unit Movement ใน `docs/SPECS/` (ตาม "Ask First, Code Later")
+- [ ] Core Loop Prototype ทำแล้ว · Paper Prototype ทดสอบแล้ว
+- [ ] Core Features Locked · Change Control Process ชัดเจน (มาตรา 4.2)
+- [ ] Communication Channel ตั้งค่าแล้ว · Daily Standup ตกลงเวลาแล้ว (ปรับตาม Solo workflow)
 
 ---
 
 ## 7. โครงสร้างทีมและหน้าที่
 
-### 7.1 ทีมขนาด 3 คน + AI (แนะนำ)
+### 7.1 Team Structure: Solo Developer + AI
 
-| บทบาท | หน้าที่หลัก |
+| บทบาท | ผู้รับผิดชอบ |
 | --- | --- |
-| **Producer / Lead Developer** | Design Decisions, GDScript, Rust Core, Integration, PM |
-| **Artist / Visual Designer** | Character Sprites, UI/UX, Terrain Tiles, Animation, VFX, Icons |
-| **Level Designer / QA Tester** | Map Layout, Enemy Placement, Boss Encounter, Balance, Playtest, Lore |
+| Design / Code (Godot + Rust) / Level Design / QA | Solo Developer |
+| Art (Sprite, UI, Icon, Tileset, Animation, VFX) | Solo Developer + AI-generated Placeholder (จนกว่าจะทำ Art จริง/หา Asset Store) |
+| Documentation, Lore, Naming, Debug ช่วย | AI (Claude) |
 
-**AI Tools ใช้ได้:** Placeholder Art, Lore/Flavor Text, Naming, Debug, Documentation
+**ข้อจำกัดเมื่อทำ Solo:**
+- Time-boxing ต่อ Phase ควรยืดหยุ่นกว่าทีมใหญ่ (งานทำคนเดียวทุกด้าน)
+- Art จะเป็นคอขวดหลัก → ใช้ Placeholder/AI-gen ก่อน แล้วค่อย polish ทีหลังใน Phase 3
+- QA/Playtest ต้องอาศัยคนนอก (เพื่อน/community) ช่วย test เป็นระยะ ไม่ใช่ QA เต็มเวลา
 
-**ห้ามใช้ AI ทำ:** Character Design หลัก, Game Design หลัก, Core Mechanics (ต้องเป็นคนตัดสินใจ)
+**AI Tools ใช้ได้:** Placeholder Art, Lore/Flavor Text, Naming, Debug, Documentation, Boilerplate Code
+
+**ห้ามใช้ AI ทำ:** Game Design หลัก, Core Mechanics (ต้องเป็นคนตัดสินใจ), Spec Sheet (ต้องผ่าน PRD ก่อน)
 
 ### 7.2 Godot-Specific Task Management
 
@@ -408,7 +420,7 @@ Track: Scene Inventory (.tscn), Script Inventory (.gd), Node Dependencies, Signa
 | ไฟล์/โฟลเดอร์ | หน้าที่ |
 | --- | --- |
 | `PDR.md` | Foundation Document |
-| `GDD.md` | Game Design — Card/Class/Skill/Weapon system detail |
+| `GDD.md` | Game Design — Unit/Stats/Element/Terrain/Combat Formula/Smart AI |
 | `CLASS_TREE.md` | Class Tree + Promotion Rules |
 | `SKILL_SYSTEM.md` | Skill Types, CP, Bank, Guard, Aura |
 | `WEAPON_SYSTEM.md` | Weapon Type, Rank, Ability, Durability |
