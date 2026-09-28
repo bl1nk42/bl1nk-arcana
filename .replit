@@ -2,6 +2,45 @@ modules = ["rust-stable", "bash"]
 
 [nix]
 channel = "stable-25_05"
+packages = ["xorg.libX11", "xorg.libXcursor", "xorg.libXrandr", "xorg.libXi", "xorg.libXinerama", "libGL", "libxkbcommon", "xorg.libXext", "dbus", "alsa-lib", "libpulseaudio"]
 
 [agent]
 expertMode = true
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "just check"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Blink Arcana"
+
+[[workflows.workflow]]
+name = "just check"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "just check --all"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "Blink Arcana"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bash scripts/run-replit.sh"
+
+[workflows.workflow.metadata]
+outputType = "vnc"
