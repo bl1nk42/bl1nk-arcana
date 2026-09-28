@@ -176,23 +176,22 @@ XXX = ผ่านไม่ได้/ยืนไม่ได้ | Fire+/Water+ 
 bl1nk-arcana/
 ├── godot_project/
 │   ├── scenes/
-│   │   ├── main.tscn / battle.tscn / map.tscn / unit.tscn
-│   │   └── ui/ (hud, party_panel, unit_info, shop)
+│   │   ├── main.tscn / battle.tscn / map.tscn / unit.tscn / card.tscn
+│   │   └── ui/ (hud, hand_panel, unit_info, shop)
 │   ├── scripts/
-│   │   ├── autoload/ (game_manager.gd, skill_database.gd)
+│   │   ├── autoload/ (game_manager.gd, card_database.gd)
 │   │   ├── battle/ (battle_manager.gd, turn_handler.gd, unit_selector.gd, tile_highlighter.gd)
-│   │   ├── ui/ (skill_ui.gd, party_panel.gd)
+│   │   ├── ui/ (card_ui.gd, drag_drop.gd)
 │   │   └── main_menu.gd
-│   ├── resources/ (units/ classes/ skills/ items/)
+│   ├── resources/ (units/ cards/ classes/ skills/ items/)
 │   ├── assets/ (sprites/ sfx/ music/)
 │   └── project.godot
 ├── rust_core/
+│   ├── Cargo.toml
 │   └── src/ (lib.rs, combat.rs, ai.rs, pathfinding.rs, data.rs, skills.rs)
-├── docs/ (GDD.md, CLASS_TREE.md, SKILL_SYSTEM.md, TASK_PLAN.md)
+├── docs/ (GDD.md, CLASS_TREE.md, CARD_LIST.md, TASK_PLAN.md)
 └── build/ (windows/ macos/ linux/)
 ```
-
-> **หมายเหตุ:** โครงสร้างในไฟล์นี้เป็นเวอร์ชันเก่า (godot_project/rust_core แบนรวมกัน) — โครงสร้างจริงที่ใช้แยก Godot project กับ Rust workspace ตาม [[PDR.md#32-โครงสร้างรีโพใหม่-แทนโครงสร้างเดิมที่พัง]]
 
 ---
 
@@ -205,4 +204,6 @@ bl1nk-arcana/
 - **Build Target:** PC (Windows/macOS/Linux) — เวอร์ชันแรก
 - **Deployment (Web build ถ้ามี):** พิจารณา Vercel สำหรับหน้า landing/devlog
 
-*เอกสารที่เกี่ยวข้อง: `CLASS_TREE.md` (รายละเอียด Class/Skill), `SKILL_SYSTEM.md` (กติกา Skill/CP/Slot/Bank/Guard), `TASK_PLAN.md` (แผนงานและ Task Breakdown)*
+---
+
+*เอกสารที่เกี่ยวข้อง: `CLASS_TREE.md` (รายละเอียด Class/Skill), `CARD_LIST.md` (รายการการ์ด), `TASK_PLAN.md` (แผนงานและ Task Breakdown)*

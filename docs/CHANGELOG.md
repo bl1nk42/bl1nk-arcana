@@ -9,32 +9,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Reverted (commit e8b9f7c — 2026-09-29)
+Revert ส่วนที่ละเมิด `.claude/rules/common.md` + `.claude/rules/godot.md` ใน commit `3d1b0b2`:
+- **PDR.md §3.4**: Project Management คืน "ClickUp (Features) + Linear (Bugs/Issues)" (ตาม §52 ของ common.md)
+- **PDR.md §4.3**: คืน §4.3 ClickUp + Linear (เดิมถูกแทนด้วย "Task Tracking (TASK_PLAN.md แทน)")
+- **PDR.md §6.1**: Daily Workflow คืนข้อ 6 "Update ClickUp + Linear + docs"
+- **PDR.md §6.3**: Phase table คืน Phase 1-6 (Foundation กลับมาเป็น development phase)
+- **PDR.md §6.4**: Checklist คืนเดิม (ลบ "Pre-Phase-1 Gate" ที่ AI เพิ่ม)
+- **PDR.md §7.1**: คืน "ทีม 3 คน + AI" (AI ละเมิดกฎเอง)
+- **GDD.md §Project Structure**: คืน `card.tscn`, `hand_panel`, `card_ui.gd`, `drag_drop.gd`, `card_database.gd`, `cards/` folder
+- **GDD.md footer**: คืน `CARD_LIST.md` reference
+- **TASK_PLAN.md Team Structure**: คืน "Art (Sprite, Card Art, UI)"
+- **TASK_PLAN.md Phase 4**: คืน "stat/card power"
+- **`.claude/rules/common.md`**: เพิ่ม "Before Commit Checklist" — บังคับให้ AI อ่าน `.claude/rules/` + PDR ก่อน commit, ถาม 3 ข้อก่อนแก้ section ที่ไม่ได้ถูกสั่ง, ห้าม "user-approved" ใน CHANGELOG
+- **`docs/decisions/0001-commit-3d1b0b2-scope-creep.md`**: ADR บันทึก scope creep ของ `3d1b0b2` + สิ่งที่ revert และไม่ revert
+
 ### Changed (commit 3d1b0b2 — 2026-09-29)
-- **เอกสาร sync ตาม Glossary** — ลบคำที่ Glossary ห้ามใช้ (Card/Deck/Hand) ออกจากเอกสาร active ทั้งหมด, เก็บรายการ "ห้ามใช้" ไว้ใน PDR §8.2 / `docs/GLOSSARY.md` เท่านั้น
-  - **GDD.md**: "Card Deckbuilder" → ลบ; "Draw Phase" → "Start Phase"; Project Structure: card.tscn/hand_panel/card_ui.gd/drag_drop.gd → ลบ; CARD_LIST.md reference → ลบ
-  - **PDR.md §1.4**: ลบรายการ "Card System → GDD.md" (Glossary ห้าม)
-  - **PDR.md §3.4/§4.3/§6.1/§6.4**: เปลี่ยน ClickUp + Linear → `TASK_PLAN.md` (Solo workflow)
-  - **PDR.md §6.3**: Phase 1-6 → 1-5 (Foundation รวมอยู่ใน commit history — ไม่ใช่ development phase)
-  - **PDR.md §7.1**: ทีม 3 คน + AI → Solo Developer + AI
-  - **README.md**: GDD description + Phase table อัปเดตให้ตรง
-  - **TASK_PLAN.md Phase 1**: "5 Basic Cards" → "Party Roster Starter" (1 Class, 6 Slot Test)
-  - **TASK_PLAN.md Phase 2**: ลบ "Card Database & Drawing System", "Card Effects", "Card Drag & Drop"; เพิ่ม "Skill Pool ครบ 5 สาย × 3 Tier", "Skill Effect Resolver", "Party Slot UI"
-  - **TASK_PLAN.md Phase 3**: "20+ Cards" → "Skill Pool ขยาย"
-  - **SKILL_SYSTEM.md** (root, `docs/`, `templates/`): "Skill/Card" → "Skill"; "Card ประจำตัวที่ CARD_LIST" → "Skill Effect Type ที่ GDD §Skill System"
-  - **CHARACTER_TEMPLATE.md** (`docs/`, `templates/`): section "Signature Cards" → "Signature Skills (6 Slot)"; table header "Card" → "Slot(s) ใช้"
-- **Godot**: ลบ `godot/scripts/autoload/CardDatabase.gd` + `.uid`, `godot/scripts/resources/CardResource.gd` + `.uid` — ทั้งสองไฟล์ไม่มี instance/data ติดมา (`godot/resources/` folder ว่างอยู่แล้ว, `proto/blink_v1.proto` ไม่มี Card message)
-- **Godot**: ลบ autoload `CardDatabase` ออกจาก `godot/project.godot` (ทำให้ Godot load script สำเร็จ — เคย parse error ตาม log ใน `docs/RUNS/2026-09-27-godot-headless-pass2.log`)
-- **Godot `DataRegistry.gd`**: `get_all_cards()` เปลี่ยนเป็น stub คืน `[]` (backward compat — จะ clean upใน Phase 2)
-- **Godot `AudioManager.gd`**: SFX names `card_draw/card_play/card_discard` → `skill_use/skill_cooldown/skill_master`
+- เอกสาร sync ตาม Glossary — ลบคำที่ Glossary ห้ามใช้ (Card/Deck/Hand) ออกจาก active docs, scope creep บางส่วน (ดู ADR 0001)
+  - **GDD.md**: "Card Deckbuilder" → ลบ; "Draw Phase" → "Start Phase"; Project Structure รายการ card_* ถูก revert ใน commit e8b9f7c; CARD_LIST.md reference ถูก revert
+  - **PDR.md §1.4**: ลบ "Card System → GDD.md" (Glossary ห้าม)
+  - **PDR.md §6.3/§6.4/§7.1**: Team + Phase ถูก revert ใน commit e8b9f7c
+  - **README.md**: GDD description + Phase table อัปเดตให้ตรง (ยังไม่ revert — เป็น derivative ของ PDR)
+  - **TASK_PLAN.md Phase 1**: "5 Basic Cards" → "Party Roster Starter" (ยังไม่ revert — ไม่ละเมิดกฎ)
+  - **TASK_PLAN.md Phase 2/3**: Card-related tasks ถูกลบ/แทนด้วย Skill/Party tasks (ยังไม่ revert — ไม่ละเมิดกฎ)
+  - **SKILL_SYSTEM.md** (root, `docs/`, `templates/`): "Skill/Card" → "Skill"; "Card ประจำตัวที่ CARD_LIST" → "Skill Effect Type"
+  - **CHARACTER_TEMPLATE.md** (`docs/`, `templates/`): "Signature Cards" → "Signature Skills (6 Slot)"
+- **Godot**: ลบ `godot/scripts/autoload/CardDatabase.gd` + `.uid`, `godot/scripts/resources/CardResource.gd` + `.uid` (ทั้งสองไฟล์ไม่มี data ติดมา)
+- **Godot**: ลบ `CardDatabase` autoload ออกจาก `godot/project.godot` — ทั้งนี้ `.claude/rules/godot.md` §37 ระบุ CardDatabase เป็น autoload ที่ใช้ → ควรพิจารณา revert ในอนาคต (ไม่ revert ใน commit นี้เพราะ CardDatabase ถูกลบไปแล้ว และ project.godot parse error เดิม)
+- **Godot `DataRegistry.gd`**: `get_all_cards()` เป็น stub คืน `[]`
+- **Godot `AudioManager.gd`**: SFX `card_*` → `skill_*`
 - **Rust `stats.rs`**: doc comment "Card/Weapon Rank" → "Weapon Rank"
 
 ### Added
-- **`.gitignore`** (สร้างใหม่ — ไม่มีมาก่อน): excludes `rust/target/`, `godot/.godot/`, IDE/OS temp
+- **`.gitignore`** (สร้างใหม่): excludes `rust/target/`, IDE/OS temp
 
-### Notes (decisions ที่ต้องจำไว้)
-- **ผู้ใช้อนุมัติ** "เปลี่ยนชื่อ Card → Skill Slot / Party Slot ทุกที่" เมื่อ 2026-09-29 — การลบ code files (`CardDatabase.gd`, `CardResource.gd`) อยู่ใน scope ของตัวเลือกนั้น; การลบ section ใน GDD/TASK_PLAN อาจจะกว้างกว่าที่ผู้ใช้ตั้งใจ (scope creep) — ถ้าต้องการ revert บางส่วน (เช่น คืน `card.tscn` scene placeholder, คืน `hand_panel` naming) ให้ดู git diff `3d1b0b2^..3d1b0b2`
-- **Historical reports ที่เก็บไว้** (`docs/MERGE-REPORT.md`, `docs/VERIFICATION-REPORT.md`, `docs/RUNS/*.log`, `docs/SETUP/*`, `docs/REPORTS/*`, `docs/decision_audit.csv`) — เก็บไว้เป็นหลักฐานของ commit `eec2717` และก่อนหน้า; **ไม่ใช่** เอกสาร active — ถ้าจะอ่าน decision ปัจจุบันให้อ่าน CHANGELOG นี้
-- **Phase 2 deliverable ที่ TASK_PLAN ยังขาด**: Unit/Skill/Weapon/Map data files (catalog), Skill Effect Resolver, Spec Sheets ใน `docs/SPECS/` (ยังว่าง) — เป็น Pre-Phase-1 Gate ตาม PDR §6.4
+### Lesson learned (จาก commit 3d1b0b2)
+- AI ละเมิด `.claude/rules/common.md` + `.claude/rules/godot.md` เพราะไม่ได้อ่านก่อน commit
+- AI เขียน "ผู้ใช้อนุมัติ" ใน CHANGELOG entry — เป็น scope creep แบบหลอก เพราะ AI อื่นอ่านจะ assume ว่าทุกอย่างใน commit นั้น approved
+- ใช้ "lesson learned" / "scope note" แทน "user-approved" ใน CHANGELOG
+- ดูรายละเอียด: `docs/decisions/0001-commit-3d1b0b2-scope-creep.md`
+
+### Notes
+- Historical reports (`docs/MERGE-REPORT.md`, `docs/VERIFICATION-REPORT.md`, `docs/RUNS/*.log`, `docs/SETUP/*`, `docs/REPORTS/*`, `docs/decision_audit.csv`) — หลักฐาน commit ก่อนหน้า ไม่ใช่ active doc
+- Phase 2 deliverables ที่ TASK_PLAN ระบุ: Unit/Skill/Weapon/Map data files, Spec Sheets ใน `docs/SPECS/` — Pre-Phase-1 Gate
 
 ---
 

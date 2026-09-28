@@ -50,3 +50,12 @@ just precommit # Pre-commit checks
 3. Code → `just fmt` → `just lint` → `just quality`
 4. Commit (Conventional) + Push
 5. Update ClickUp + Linear + docs
+
+## Before Commit Checklist
+
+- [ ] อ่าน `.claude/rules/common.md` + `godot.md` + `rust.md` + `comment.md` ครบ
+- [ ] อ่าน PDR.md (อย่างน้อย §6.1 Daily Workflow + §7.1 Team + §4.2 Change Control)
+- [ ] ถามตัวเองก่อนแก้ section ที่ไม่ได้ถูกสั่ง: ผู้ใช้ขอไหม? ผู้ใช้ต้องการไหม? ผู้ใช้จะขอบคุณไหม?
+- [ ] ถ้าข้อใดข้างบน "ไม่มี" → ถาม user 1 บรรทัด ไม่ทำเอง ไม่ assume
+- [ ] ทุก commit ต้อง update `docs/CHANGELOG.md` (§38)
+- [ ] CHANGELOG entry ห้ามใช้ "user-approved" เพราะ AI อื่นอ่านจะ assume scope ทั้งหมด approved ใช้ "lesson learned" / "scope note" แทน

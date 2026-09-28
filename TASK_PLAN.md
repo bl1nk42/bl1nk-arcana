@@ -5,7 +5,7 @@
 | บทบาท | ผู้รับผิดชอบ |
 |--------|---------------|
 | Design / Code (Godot + Rust) | Solo Developer |
-| Art (Sprite, UI, Icon, Tileset, Animation, VFX) | Solo Developer + AI-generated Placeholder (จนกว่าจะทำ Art จริง/หา Asset Store) |
+| Art (Sprite, Card Art, UI) | Solo Developer + AI-generated Placeholder (จนกว่าจะทำ Art จริง/หา Asset Store) |
 | Level Design / QA | Solo Developer |
 | Documentation, Lore, Debug ช่วย | AI (Claude) |
 
@@ -122,7 +122,7 @@ Godot 4.x + Rust (GDExtension) | Git + GitHub | Build Target: PC (Windows/macOS/
 - [ ] **Intention System** — แสดง indicator ว่า AI จะเดิน/โจมตีจุดไหนก่อนจบเทิร์นผู้เล่น
 - [ ] **AI Personalities** (Aggressive/Defensive/Tactical) — ขยาย ai.rs รองรับ behavior หลายแบบ
 - [ ] **Adaptive Difficulty** — ปรับ enemy stat/behavior ตาม performance ผู้เล่น
-- [ ] **Balance Testing** — ทดสอบ stat/skill power/enemy difficulty ร่วมกับ playtester ภายนอก
+- [ ] **Balance Testing** — ทดสอบ stat/card power/enemy difficulty ร่วมกับ playtester ภายนอก
 - [ ] **Bug Fixing** — แก้ปัญหาจาก playtest feedback
 - [ ] **Performance Optimization** — profile Rust core และ Godot scene ที่หนัก
 
